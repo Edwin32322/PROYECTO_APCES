@@ -1,0 +1,122 @@
+
+.formulario{
+    display: block;
+    margin: 5% 0;
+    width: 100%;
+}
+.formulario > .encabezado > h1{
+    color: #385B56;
+    font-weight: 600;
+    font-size: 35px;
+    margin-bottom: 25px;
+}
+.formulario > form{
+    display: block;
+    width: 95%;
+    border-radius: 10px;
+    background-color: #E7E6E6;
+    padding: 40px;
+}
+.formulario > form > .form-group, .formulario > form > .dos-columnas{
+    display: flex;
+    margin: 0 10px 30px 10px;
+}
+.formulario > form > .form-group > .label-contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    width: 90px ;
+    border-radius: 10px 0 0 10px;
+    color: #7F7F7F;
+    font-weight: 700;
+    background: #EFEFEF;
+}
+.formulario > form > .dos-columnas{
+    display: flex;
+    width: 100%;
+}
+.formulario > form > .dos-columnas > .form-group{
+    width: 100%;
+    display: flex;
+    margin-right: 5%;
+}
+
+.formulario > form > .dos-columnas> .form-group > .label-contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    width: 90px ;
+    border-radius: 10px 0 0 10px;
+    color: #7F7F7F;
+    font-weight: 700;
+    background: #EFEFEF;
+}
+.formulario > form > .dos-columnas> .form-group > .input-contenedor{
+    display: flex;
+    width: 100%;
+}
+.formulario > form > .form-group > .input-contenedor{
+    display: flex;
+    width: 100%;
+    
+}
+.formulario > form > .dos-columnas> .form-group > .input-contenedor > input{
+    width: 100%;
+    min-width: 50px;
+    border-radius: 0 10px 10px 0;
+    border-style: none;
+}
+.formulario > form >  .form-group > .input-contenedor > input{
+    width: 60%;
+    border-radius: 0 10px 10px 0;
+    min-width: 50px;
+    border-style: none;
+}
+.formulario > form >  .form-group > .label-contenedor > label{
+    text-align: center;
+    width: 90px;
+}
+.formulario > form > .dos-columnas >  .form-group > .label-contenedor > label{
+    width: 90px;
+}
+.form-group > .input-contenedor > select{
+    display: flex;
+    background-color: white;
+    border-radius: 0 10px 10px 0;
+    border-style: none;
+    min-width: 50px;
+    width: 100%;
+}
+.form-group.button > .btn{
+    background-color: #39A900;
+    border: none;
+}
+
+@media(max-width: 750px){
+    .formulario > form > .dos-columnas {
+        display: block;
+    }
+    .formulario > .encabezado > h1{
+        font-size: 30px;
+    }
+    .formulario > form > .dos-columnas > .form-group{
+        margin-top: 25px;
+    }
+    .formulario > form >  .form-group > .input-contenedor > input{
+        width: 100%;
+    }
+}
+
+
+@media(max-width: 488px){
+    .contenidos{
+        width: 80%;
+    }
+    .formulario > form{
+        width: 100%;
+    }
+}

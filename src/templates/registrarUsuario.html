@@ -1,0 +1,78 @@
+{% extends 'layoutAdmin.html' %}
+
+{% block title %}RegistrarUsuario{% endblock %}
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/formUsuario.css")}}'>
+{% endblock %}
+{% block body %}
+
+
+
+<div class="formulario">
+  {% if message_err %}
+  <div class="alert alert-danger" role="alert">
+    {{message_err}}
+  </div>
+  {% endif%}
+  {% if message_exito %}
+  <div class="alert alert-success" role="alert">
+    <span class="row">{{message_exito}}</span>
+    <span class="row">Usuario: {{datos_usuario_registrado.nombre_Usuario}}</span>
+    <span class="row">Contraseña: {{datos_usuario_registrado.contrasena_Usuario}}</span>
+  </div>
+  {% endif%}
+
+  <div class="encabezado">
+      <h1>Registrar Usuario</h1>
+  </div>
+  <form action="/usuario/registrarUsuario" method="post" class="form" novalidate>
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    {% for i in form_user_register.nombre_Usuario.errors %}
+    <div class="dos-columnas"><span  class="span" style="color: red;"> {{i}}</span></div>
+    {% endfor %}
+      <div class="form-group">
+          <div class="label-contenedor"><label for="">Nombre</label></div>
+          <div class="input-contenedor">{{ form_user_register.nombre_Usuario(value=datos_usuario.usuario, class='form-control', id='nombre_Usuario')}}</div>
+      </div>
+      <div class="form-group">
+          <div class="label-contenedor"><label for="">Contraseña</label></div>
+          <div class="input-contenedor"> {{ form_user_register.contrasena_Usuario(value=datos_usuario.contrasena, class='form-control',id='contrasena_Usuario', readonly='readonly') }}</div>
+      </div>
+      <div class="dos-columnas">
+          <div class="form-group">
+              <div class="label-contenedor"><label for="">Tipo Doc.</label></div>
+              <div class="input-contenedor">
+                {{ form_user_register.tipoDoc_Usuario(class='form-select', id='tipoDoc_Usuario') }}
+                {% for i in form_user_register.tipoDoc_Usuario.errors %}
+                {{i}}
+                {% endfor %}</div>
+          </div>
+          <div class="form-group">
+              <div class="label-contenedor"><label  for="">Núm Doc.</label></div>
+              <div class="input-contenedor">
+                {{ form_user_register.numero_Documento_Usuario(class='form-control',id='numero_Documento_Usuario', placeholder="(Opcional)")}}
+                {% for i in form_user_register.numero_Documento_Usuario.errors %}
+                {{i}}
+                {% endfor %}
+              </div>
+          </div>
+      </div>
+      {% for i in form_user_register.correo_Usuario.errors %}
+      <div class="dos-columnas"><span  class="span" style="color: red;"> {{i}}</span></div>
+      {% endfor %}
+      <div class="dos-columnas">
+          <div class="form-group">
+              <div class="label-contenedor"><label for="">Correo</label></div>
+              <div class="input-contenedor">{{ form_user_register.correo_Usuario(class='form-control', id='correo_Usuario', placeholder='example@sena.edu.co') }}
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="label-contenedor"><label  for="">Rol</label></div>
+              <div class="input-contenedor">{{ form_user_register.id_Rol_FK(class='form-control', id='id_Rol_FK') }}</div>
+          </div>
+      </div>
+      <div class="form-group button">{{ form_user_register.submit(class='btn btn-success')}}</div>
+      {{ form_user_register.hidden_tag()}}
+  </form>
+</div>
+{% endblock %}

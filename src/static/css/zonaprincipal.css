@@ -1,0 +1,71 @@
+
+.contenidos{
+    width: 70%;
+    margin: 0 auto;
+}
+.bienvenida{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.mensajes{
+    display: block;
+    margin: 0 10% 25% 10%;
+    width: 500px;
+}
+.meraki img{
+    margin: 15%;
+    width: 300px;
+    height: 95%;
+}
+
+.mensaje1{
+    color: #000;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.mensaje2{
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+@media(max-width: 700px){
+    .bienvenida{
+        margin-top: 40px;
+        flex-wrap: wrap-reverse;
+    }
+    .mensajes{
+        display: block;
+        margin: 0 10% 0 10%;
+        width: 500px;
+    }
+    .mensaje1{
+        color: #000;
+        font-family: Inter;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 700;
+    }
+    
+    .mensaje2{
+        color: #000;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .meraki img{
+        margin: 15%;
+        width: 200px;
+        height: 300px;
+    }
+}

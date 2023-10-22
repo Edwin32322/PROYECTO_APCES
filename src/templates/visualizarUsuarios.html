@@ -1,0 +1,53 @@
+
+
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+
+
+{% block title %}Visualizar Usuarios{% endblock %}
+
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/visualizarUsuarios.css')}}">
+{% endblock %}
+
+{% block body %}
+<div class="lista_usuarios">
+    <div class="filtrar_rol">
+        <label for="rol_usuario">Rol de Usuario</label>
+        <select class="form-select " id="rol_usuario">
+            <option value="todos">Todos los roles</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Instructor">Instructor</option>
+        </select>
+    </div>
+    <div class="lista">
+        <ul class="">
+            {% if users %}
+            {% for user in users %}
+            <a href="visualizarUsuario/{{ user.id_Usuario }}">
+                <li data-rol="{{ user.id_Rol_FK }}">
+                    <div class="contenedor_imagen">
+                        <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
+                    </div>
+                    <div class="contenedor_texto">
+                        <span>Usuario</span>
+                    </div>
+                    <div>
+                        <span>{{ user.nombre_Usuario }}</span>
+                    </div>
+                </li>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p>No hay usuarios disponibles.</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+{% block CustomJs %}
+<script src="{{url_for('static', filename='js/cambiarRol.js')}}"></script>
+{% endblock %}

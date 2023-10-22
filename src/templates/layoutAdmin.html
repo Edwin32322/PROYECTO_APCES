@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Usuarios</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/normalize.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/sena.png')}}" type="image/x-icon">
+    {% block CustomCSS %}{% endblock %}
+</head>
+<body>
+    <header >
+        <!-- Header que contendra el logo del aplicativo, el nombre del usuario y las opciones correspondientes a la sesión-->
+        <div>
+            <nav>
+                <ul>
+                    <li>
+                        <h2 class="usuario">{{ current_user.nombre_Usuario}}</h2>
+                    </li>
+                    <li class="perfil-dropdown">
+                        <a href="#" id="perfil-link">
+                            <img src="{{url_for('static', filename='img/Icono Usuario.png')}}" id="perfil-imagen">
+                        </a>
+                        <ul class="sub_menu" id="opciones-perfil">
+                            <li class="flecha"></li> <!-- Flecha agregada -->
+                            <li><a href="/usuario/visualizarUsuario/{{current_user.id_Usuario}}">Perfil</a></li>
+                            <li><a href="/logout">Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        
+        
+        
+    </header>
+    <div class="contenedor">
+        <div class="lista_desplegable">
+            <ul >
+                <li class="opcion one">
+                    <div class="logo" >
+                        <a href="/usuario/zonaPrincipal"><img src="{{url_for('static', filename='img/APCES.png')}}" alt="logo"></a>
+                    </div>
+                </li>
+                <li class="opcion one">
+                    <a href="#"><img src="{{url_for('static', filename='img/llamados.png')}}">Llamados de atención</a>
+                    <ul class="submenu two">
+                        <li><a href="/registrarLlamado"><img src="{{url_for('static', filename='img/registrar.png')}}">Registrar llamado de atención</a></li>
+                        <li><a href="/visualizarLlamado"><img src="{{url_for('static', filename= 'img/visualizar.png')}}">Visualizar llamados de atención</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one flex-row"><a href="#"><img src="{{url_for('static', filename='img/citaciones.png')}}">Citaciones</a>
+                    <ul class="submenu two">
+                        <li><a href="/generarCitacion"><img src="{{url_for('static', filename='img/enviar.png')}}">Enviar citación</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/actas.png')}}">Actas</a>
+                    <ul class="submenu two">
+                        <li><a href="/generarActa"><img src="{{url_for('static', filename='img/generar.png')}}">Generar acta</a></li>
+                        <li><a href="/visualizarActas"><img src="{{url_for('static', filename='img/visualizar.png')}}">Visualizar actas</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/usuarios.png')}}">Usuarios</a>
+                    <ul class="submenu two">
+                        <li><a href="/usuario/registrarUsuario"><img src="{{url_for('static', filename='img/registrar.png')}}">Registrar Usuarios</a></li>
+                        <li><a href="/usuario/visualizarUsuarios"><img src="{{url_for('static', filename='img/visualizarusua.png')}}">Visualizar Usuarios</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/repor.png')}}">Reportes</a>
+                    <ul class="submenu two">
+                        <li><a href="/generarReporteActas"><img src="{{url_for('static', filename='img/reportes.png')}}">Actas</a></li>
+                        <li><a href="/generarReporteCitaciones"><img src="{{url_for('static', filename='img/reportes.png')}}">Citaciones</a></li>
+                        <li><a href="/generarReporteLlamados"><img src="{{url_for('static', filename='img/reportes.png')}}">Llamados de atención</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="contenidos">
+            {% block body %}
+            
+            
+            
+            {% endblock %}
+        </div>
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <span>APCES Powered by SENA @SENA 2023</span>
+            </div>
+        </div>
+    </footer>
+    <script src="{{url_for('static', filename='js/listaDesplegable.js')}}"></script>
+    <script src="{{url_for('static', filename='js/opcionesPerfil.js')}}"></script>
+    {% block CustomJs%}
+    {% endblock %}
+    
+</body>
+</html>

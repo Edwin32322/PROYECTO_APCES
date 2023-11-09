@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="formulario">
+    <h2>Datos basicos</h2>
+    <form action="">
+        <div class="form-group row">
+            <label for="tipoDocumento" class="col-sm-2 col-form-label">Tipo de documento</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tipoDocumento" placeholder="Ingrese el tipo de documento">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="numeroDocumento" class="col-sm-2 col-form-label">Número de documento</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="numeroDocumento" placeholder="Ingrese el número de documento">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="fechaExpedicion" class="col-sm-2 col-form-label">Fecha de expedición</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="fechaExpedicion" placeholder="Ingrese la fecha de expedición">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="nombres" placeholder="Ingrese los nombres">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="apellidos" placeholder="Ingrese los apellidos">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="fechaNacimiento" class="col-sm-2 col-form-label">Fecha de nacimiento</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="fechaNacimiento" placeholder="Ingrese la fecha de nacimiento">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="correo" class="col-sm-2 col-form-label">Correo</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="correo" placeholder="Ingrese los nombres">
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-success">Registrar</button>
+    </form>
+</div>
+{% endblock %}

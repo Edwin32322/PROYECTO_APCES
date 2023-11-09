@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+.contenedor{
+    display: flex;
+    width: 100%;
+}
+.contenidos{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 59%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+header{
+    display: inline-flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    min-height: 60px;
+    background-color: #39A900;
+}
+.usuario{
+    color: #FFF;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    margin: 0 40px;
+}
+
+nav ul .sub_menu{
+    background: #D9D9D9;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    display: none;
+    list-style: none;
+}
+nav ul li > a{
+    color: black;
+    text-decoration: none;
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 60px;
+    
+    align-items: center;
+}
+
+
+
+nav img{
+    max-width: 100%;
+    max-height: 41px;
+    margin-right: 50px;
+}
+
+nav{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+header > .logo{
+    background: #D9D9D9;
+}
+
+nav > ul{
+    height: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li{
+    height: 100%;
+    list-style: none;
+    position: relative;
+}
+
+.icono{
+    float: right;
+    font-size: 16px;
+}
+
+.lista_desplegable{
+    width: 300px;
+    display: flex;   
+    min-height: 100vh;
+    background: #D9D9D9;
+}
+
+
+.lista_desplegable  > ul{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.lista_desplegable  ul li{
+    border-bottom: 1px #bfbfbf solid;
+    display:block;
+    margin: 0;
+    padding: 0;
+
+}
+
+.lista_desplegable  ul li a{
+    color: #7F7F7F;
+    text-decoration: none;
+    padding: 18px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.lista_desplegable  ul li a:hover{
+    background: #F5F5F1;
+}
+.lista_desplegable  ul li .logo:hover{
+    background: #F5F5F1;
+}
+
+.lista_desplegable  ul .one > a {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+.lista_desplegable  ul > .opcion > ul > li > a {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+.lista_desplegable  ul > .opcion > ul > li > a > span {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.lista_desplegable  ul .submenu{
+    background: rgb(236, 235, 235);
+    width: 100%;
+    margin:0;
+    padding: 0;
+    display: none;
+}
+
+
+.lista_desplegable  ul .submenu li a{
+    font-size: 15px;
+    padding-left: 10%;
+}
+
+.opcion img{
+    width: 35px;
+    display: flex;
+    
+}
+.lista_desplegable > ul > .opcion.one > .logo{
+    width: 100%;
+    height: auto;
+}
+
+.lista_desplegable > ul > .opcion.one > .logo > a{
+    display: flex;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+    margin: 0 auto;
+}
+.lista_desplegable > ul > .opcion.one > .logo > a > img{
+    display: flex;
+    padding: 10px;
+    width: 160px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: white;
+    bottom:0;
+    padding: 2%;
+    background: #39A900;
+}
+footer > .container > .row > span{
+    display: flex;
+    font-size: 1vw;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+}
+
+
+
+
+.lista_desplegable ul .activo{
+    display: block; 
+}
+
+
+.usuario{
+    color: #FFF;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    margin: 0 40px;
+}
+
+#opciones-perfil {
+    display: none;
+    position: absolute;
+    background-color: #dad9d9;
+    border: 2px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+
+#opciones-perfil li {
+    list-style: none;
+    margin: 5px 0;
+}
+#opciones-perfil.visible {
+    display: block;
+}
+#opciones-perfil > li > a {
+    color: #7F7F7F;
+}
+#opciones-perfil > li > a:hover {
+    color: black;
+}
+
+
+.flecha {
+    position: absolute;
+    top: -10px; 
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; 
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #dad9d9; 
+    transform: translateX(-50%); 
+}
+
+
+@media(max-width: 520px){
+    .contenidos {
+        width: 100%;
+    }
+    .contenedor{
+        width: 100%;
+        display: block;
+        float: none;
+    }
+    .lista_desplegable{
+        width: 100%;
+        min-height: auto;
+        margin-bottom: 30px;
+    }
+    .lista_desplegable  ul li a{
+        color: #7F7F7F;
+        text-decoration: none;
+        padding: 8px;
+        font-size: 2h;
+    }
+    .lista_desplegable > ul{
+        width: 100%;
+    }
+    .lista_desplegable > ul > li{
+        width: 100%;
+    }
+    .lista_desplegable > ul > li > ul > li > a > img{
+        height: 20px;
+        width: 20px;
+    }
+    .lista_desplegable > ul > li > ul > li > a{
+        width: 100%;
+    }
+    
+    
+
+
+    header > .logo{
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    header > div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+    }
+    header {
+        display: block;
+    }
+    header > nav{
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+    }
+    header > nav > ul > li{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

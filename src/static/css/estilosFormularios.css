@@ -1,0 +1,168 @@
+.formulario {
+    margin: 5% 0;
+    width: auto;
+}
+
+.formulario > form > .encabezado > h2 {
+    color: #385B56;
+    font-weight: 500;
+}
+.formulario > form{
+    display: grid;
+    justify-content: center;
+    gap: 20px;
+    width: auto;
+}
+.formulario > form > .bloque{
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    gap: 25px;
+    border-radius: 10px;
+    background-color: #E7E6E6;
+    padding: 40px;
+}
+
+.formulario > form > .bloque > .campos-largos {
+    display: grid;
+    gap: 25px;
+    grid-column: 1 / -1;
+    width: 65%;
+}
+.formulario >  form > .bloque > .campos-dobles > .form-group {
+    width: 100%;
+}
+
+.formulario > form > .bloque > .campos-dobles {
+    gap: 25px;
+    display: flex;
+}
+
+.formulario > form > .bloque > div > .errors {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -20px 0;
+    height: auto;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos > .label-contenedor {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    width: 90px;
+    border-radius: 10px 0 0 10px;
+    color: #7F7F7F;
+    font-weight: 500;
+    background: #EFEFEF;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos > .input-contenedor {
+    display: flex;
+    width: 100%;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos {
+    display: flex;
+    width: 100%;
+    border-radius: 0 10px 10px 0;
+    min-width: 50px;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos > .input-contenedor > input {
+    width: 100%;
+    border-radius: 0 10px 10px 0;
+    min-width: 50px;
+    border-style: none;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos > .label-contenedor > label {
+    text-align: center;
+    width: 90px;
+}
+
+.formulario > form > .bloque > div > .errors > .form-group > .label-contenedor > label {
+    width: 90px;
+}
+
+.errors {
+    text-align: center;
+}
+
+.form-group > .input-contenedor > select {
+    display: flex;
+    background-color: white;
+    border-radius: 0 10px 10px 0;
+    border-style: none;
+    min-width: 50px;
+    width: 100%;
+}
+
+.file{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+  
+.form-group.button > .btn {
+    background-color: #39A900;
+}
+@media (max-width: 920px) {
+    .contenidos {
+        width: 100%;
+    }
+    .formulario > form {
+        display: grid;
+        justify-content: center;
+    }
+    .formulario > form > .bloque {
+        display: grid;
+        width: 100%;
+    }
+
+    .formulario > form > .bloque > .campos-largos {
+        width: 100%;
+    }
+
+    .formulario > form > .bloque > .campos-dobles, .formulario > form > .campos-largos {
+        display: grid;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .contenidos {
+        width: 80%;
+    }
+    .formulario > form > .bloque > div > .form-group {
+        display: block;
+    }
+
+    .formulario > form > .bloque > div > .form-group > .campos {
+        display: grid;
+    }
+
+    .formulario > form > .bloque > div > .form-group > .campos > .label-contenedor {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .formulario > .encabezado > h1 {
+        text-align: center;
+    }
+
+    .formulario > form > .bloque >div > .form-group > .campos > .label-contenedor > label {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .formulario > form > .bloque > div > .form-group > .campos > .input-contenedor > input {
+        border-radius: 0;
+    }
+}

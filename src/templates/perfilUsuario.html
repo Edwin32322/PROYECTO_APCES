@@ -1,0 +1,96 @@
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/modificarPerfil.css")}}'>
+{% endblock %}
+
+{% block body %}
+<div class="formulario">
+    <form class="form" action="/usuario/modificarUsuario/{{userProfile.id_Usuario}}" method="post" novalidate >
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <div class="bloque">
+            <div class="encabezado">
+                <h2>Datos basicos</h2>
+            </div>
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Tipo de documento</label></div>
+                        <div class="input-contenedor">{{userProfile.tipoDoc_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.tipoDoc_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Número de documento</label></div>
+                        <div class="input-contenedor">{{userProfile.numero_Documento_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.numero_Documento_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Teléfono</label></div>
+                        <div class="input-contenedor">{{userProfile.telefono_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.telefono_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label>Nombre</label></div>
+                        <div class="input-contenedor"> {{userProfile.nombre_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.nombre_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label>Correo</label></div>
+                        <div class="input-contenedor">{{userProfile.correo_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.correo_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label>Rol</label></div>
+                        <div class="input-contenedor">
+                            <select name="id_Rol_FK" class="form-select" disabled=True>
+                            {% for choice in userProfile.id_Rol_FK.choices %}
+                                <option value="{{ choice[0] }}" {% if choice[0] == userProfile.id_Rol_FK.data %}selected{% endif %}>{{ choice[1] }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% for error in userProfile.correo_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label>Estado</label></div>
+                        <div class="input-contenedor">{{userProfile.estado_Usuario(class='form-control')}}</div>
+                    </div>
+                    {% for error in userProfile.estado_Usuario.errors%}
+                    <div class="errors"><span style="color: red;">{{error}}</span></div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="form-group button"><button type="submit" class="btn btn-success">Modificar</button></div>
+        </div>
+        {{userProfile.hidden_tag()}}  
+    </form>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/visualizarUsuario.css')}}">
+{% endblock %}
+{% block title %}
+Visualizar Usuario
+{% endblock%}
+{% block body %}
+<div class="container datos-usuario">
+    <div class="imagen-usuario mb-2 mt-4">
+        <div>
+            <img src="{{ user.imagen_Usuario }}" alt="Imagen de perfil">
+        </div>
+    </div>
+    <div class="cambiar-imagen">
+        <span id="cambiar-imagen">Cambiar imagen</span>
+    </div>
+    
+    <form id="formulario-imagen" action="/usuario/actualizarImagen/{{user.id_Usuario}}" enctype="multipart/form-data" method="POST" style="display: none;">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <!-- Tu formulario para actualizar la imagen aquí -->
+        <input type="file" id="nueva-imagen" name="nueva-imagen" accept="image/*">
+        <button type="submit" id="guardar-imagen">Guardar</button>
+    </form>
+    
+    
+    
+    
+    
+    <div class="contenedor informacion-usuario">
+        <div class="seccion">
+            <div class="contenedor-label">
+                <label for="">Nombre de Usuario: {{user.nombre_Usuario}}</label>
+            </div>
+            <div class="contenedor-label">
+                <label for="">Número de documento: {{user.numero_Documento_Usuario}}</label>
+            </div>
+        </div>
+        <div class="seccion">
+            <div class="contenedor-label">
+                <label for="">Tipo de Documento: {{user.tipoDoc_Usuario}}</label>
+            </div>
+            <div class="contenedor-label">
+                <label for="">Teléfono: {{user.telefono_Usuario}}</label>
+            </div>
+            <div class="contenedor-label">
+                <label for="">Correo: {{user.correo_Usuario}}</label>
+            </div>
+            <div class="contenedor-label">
+                {% if user.estado_Usuario == 1 %}
+                <label for="">Estado: Activo</label>
+                {% else %}
+                <label for="">Estado: Inactivo</label>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="opciones-modificar">
+        {% if current_user.id_Rol_FK == 1%}
+            <form action="/usuario/modificarEstado/{{user.id_Usuario}}" method="get">
+                <button class="btn btn-primary" id="modificar-estado">Modificar Estado</button>
+            </form>
+            <form action="/usuario/modificarUsuario/{{user.id_Usuario}}" method="get">
+                <button class="btn btn-primary" id="modificar-usuario">Modificar Usuario</button>
+            </form>
+        {% endif  %}
+    </div>
+</div>
+{% endblock%}
+{% block CustomJs %}
+<script src="{{url_for('static', filename='js/cambiarImagenUsuario.js')}}"></script>
+{% endblock %}

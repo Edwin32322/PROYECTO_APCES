@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ingresa aquí</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/login.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<img class="wave" src="{{url_for('static', filename='img/wave.png')}}">
+	<div class="container">
+		<div class="img">
+			<img src="{{url_for('static', filename='/img/meraki.png')}}">
+		</div>
+		<div class="login-content">
+			<form action="/recuperarContraseña/cambiar/{{id}}" method='POST' novalidate>
+				<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+				<h3 class="title">Recuperar Contraseña</h3>
+                <img src="/static/img/logo.png" alt="">
+                <div class="input-div pass">
+					<div class="i"> 
+						<i class="fas fa-lock"></i>
+					</div>
+					<div class="div">
+						<input type="text" class="input" name="nueva_Contraseña" placeholder="Contraseña">
+					</div>
+				</div>
+                <div class="input-div pass">
+					<div class="i"> 
+						<i class="fas fa-lock"></i>
+					</div>
+					<div class="div">
+						<input type="text" class="input" name="confirmacion_Contraseña" placeholder="Confirmar Contraseña">
+					</div>
+				</div>
+                <button type="submit" class="btn" >Enviar</button>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

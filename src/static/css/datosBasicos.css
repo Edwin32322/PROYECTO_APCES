@@ -1,0 +1,27 @@
+
+.subtitle{
+    color: #7F7F7F;
+    text-align: center;
+    font-family: Inter;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.formulario{
+    width: 70%;
+    margin: 0 20%;
+}
+.formulario > h2{
+    color: #385B56;
+    margin-bottom: 2%;;
+}
+.form-group{
+    margin-bottom: 20px;
+}
+.form-group > label{
+    font-weight: 900;
+    color:rgb(142, 140, 140) ;
+}
+

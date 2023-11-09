@@ -1,0 +1,70 @@
+
+
+.contene{
+    width: 100%;
+}
+.modificarUsu{
+    color: #385B56;
+    text-align: center;
+    font-size: 26px;
+    font-style: normal;
+    line-height: normal;
+    margin: 4%;
+}
+.contene2{
+    margin: 0 auto;
+    border-radius: 20px;
+    width: 80%;
+    background: #D9D9D9;
+    margin-top: 3%;
+    padding: 35px;
+}
+
+.datos{
+    margin: 0px 0px 0 0px;
+    color: #7F7F7F;
+    text-align: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+    background: #EFEFEF;
+    padding: 5px;
+    border-radius: 5PX;
+}
+
+.botones{
+    display: grid;
+    justify-content: center;
+}
+.botones > a{ 
+    display: grid;
+    text-decoration: none;
+    justify-content: center;
+}
+.botones > a {
+    width: 200px;
+    height: 50px;
+}
+.btn{
+    display: block;
+    border: none;
+    background-size: 200%;
+    cursor: pointer;
+    transition: .5s;
+    padding: 10px;
+    border: none;
+    margin: 1rem 0;
+}
+.btn.btn-success{
+    background-image: linear-gradient(to right, #39A900, #52a12a, #6cbc44);
+}
+.btn.btn-danger{
+    background-image: linear-gradient(to right, #a90e00, #a12a2a, #bc4444);        
+}
+.btn.btn-primary{
+    background-image: linear-gradient(to right, #0057a9, #2a34a1, #3258b8);        
+}
+.btn:hover{
+    color: white;
+    background-position: right;
+}

@@ -1,0 +1,34 @@
+{% extends "layoutAdmin.html" %}
+{% block title %}
+Modificar Estado
+{% endblock %}
+{% block body %}
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/modificarEstadoUsuario.css")}}'>
+{% endblock %}
+
+<div class="contene">
+    <div class="modificarUsu">
+        <b>Modificar Estado Usuario</b>
+    </div>
+    <div class="contene2">
+        <div class="contenedor-modificar-estado">
+            <div class="estado">
+                <div class="datos">¿Deseas modificar el estado de este usuario?</div>
+            </div>
+            <div class="botones">
+                <a  class="btn btn-success" href="/usuario/modificarEstado/activar/{{id}}">
+                    Activar
+                </a>
+                <a class="btn btn-danger" href="/usuario/modificarEstado/desactivar/{{id}}">
+                    Inactivar
+                </a>
+                <a class="btn btn-primary" href="/usuario/visualizarUsuario/{{id}}">
+                    Regresar
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

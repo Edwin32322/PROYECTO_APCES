@@ -1,0 +1,22 @@
+
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+
+{% block title %}Zona Principal{% endblock%}
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/zonaprincipal.css')}}">
+{% endblock%}
+{% block body %}
+<div class="bienvenida">
+    <div class="meraki">
+        <img src="{{url_for('static', filename='img/meraki-removebg-preview.png')}}">
+    </div>
+    <div class="mensajes">
+        <div class="mensaje1"><p>Bienvenido(a) a APCES, {{ current_user.nombre_Usuario}}</p></div>
+        <div class="mensaje2"><p>Este aplicativo brinda una herramienta para mejorar el proceso <br>del comité y seguimiento SENA.</p></div>
+    </div>
+</div>
+{% endblock%}

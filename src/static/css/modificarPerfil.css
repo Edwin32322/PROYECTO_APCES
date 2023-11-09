@@ -1,0 +1,88 @@
+.contenidos{
+    width: 70%;
+    display: flex;
+}
+.formulario{
+    width: 100%;
+    display: flex;
+}
+.encabezado > h2 {
+    margin-top: 20px;
+    color: #385B56;
+    font-weight: 500;
+}
+.formulario > .form{
+    display: block;
+    width: 100%;
+}
+.formulario > .form > .bloque{
+    display: grid;
+
+    background-color: rgba(248, 248, 248, 0.305);
+    padding: 20px;
+    width: 100%;
+}
+.formulario > .form > .bloque > .campos-largos{
+    display: grid;
+    gap: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.formulario > form > .bloque > div > .form-group{
+    display: block;
+}
+
+.errors {
+    text-align: center;
+}
+.formulario > form > .bloque > div > .form-group > .campos {
+    display: flex;
+    width: 100%;
+    border-radius: 0 10px 10px 0;
+    min-width: 50px;
+}
+.formulario > form > .bloque > div > .form-group > .campos > .label-contenedor {
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    color: #7F7F7F;
+    font-weight: 700;
+}
+
+.formulario > form > .bloque > div > .form-group > .campos > .input-contenedor {
+    display: flex;
+    width: 100%;
+}
+.form-group.button{
+    width: 100px;
+}
+.form-group.button > .btn {
+    background-color: #39A900;
+    width: 100px;
+}
+
+@media (max-width: 920px) {
+    .contenidos {
+        width: 100%;
+    }
+    .formulario > form {
+        display: grid;
+        justify-content: center;
+    }
+    .formulario > form > .bloque {
+        display: grid;
+        width: 100%;
+    }
+
+    .formulario > form > .bloque > .campos-largos {
+        width: 100%;
+    }
+
+    .formulario > form > .bloque > .campos-dobles, .formulario > form > .campos-largos {
+        display: grid;
+        gap: 20px;
+    }
+}

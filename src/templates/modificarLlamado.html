@@ -1,0 +1,185 @@
+{% extends 'layoutAdmin.html' %}
+
+{% block title %}RegistrarUsuario{% endblock %}
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/estilosFormularios.css")}}'>
+{% endblock %}
+{% block body %}
+
+
+
+<div class="formulario">
+    {% if message_err %}
+    <div class="alert alert-danger" role="alert">
+        {{message_err}}
+    </div>
+    {% endif%}
+    {% if message_exito %}
+    <div class="alert alert-success" role="alert">
+        <span class="row">{{message_exito}}</span>
+        <span class="row">Usuario: {{datos_usuario_registrado.nombre_Usuario}}</span>
+        <span class="row">Contraseña: {{datos_usuario_registrado.contrasena_Usuario}}</span>
+    </div>
+    {% endif%}
+    
+    <form action="/llamados/modificarLlamado/{{formActualizar.id_LlamadoAtencion}}"  enctype="multipart/form-data" method="post" class="form" novalidate>
+        <div class="encabezado">
+            <h2>Actualizar Llamado</h2>
+        </div>
+        <div class="bloque">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Num. Ficha</label></div>
+                        <div class="input-contenedor">{{ formActualizar.num_Ficha(class='form-control', id='nombre_Usuario')}}</div>
+                    </div>
+                    {% for i in formActualizar.num_Ficha.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Nombre Aprendiz</label></div>
+                        <div class="input-contenedor">{{ formActualizar.nombre_Aprendiz(class='form-control', id='nombre_Usuario')}}</div>
+                    </div>
+                    {% for i in formActualizar.nombre_Aprendiz.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Nombre Instructor</label></div>
+                        <div class="input-contenedor">
+                            {{ formActualizar.nombre_Instructor(class='form-control')}}
+                        </div>
+                    </div>
+                    {% for i in formActualizar.nombre_Instructor.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Correo Aprendiz</label></div>
+                        <div class="input-contenedor"> {{ formActualizar.correo_Aprendiz(class='form-control',id='contrasena_Usuario') }}</div>
+                    </div>
+                    {% for i in formActualizar.correo_Aprendiz.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Llamados Atencion</label></div>
+                        <div class="input-contenedor">
+                            {{ formActualizar.num_LlamadosAtencion(class="form-control", id='tipoDoc_Usuario') }}
+                        </div>
+                    </div>
+                    {% for i in formActualizar.num_LlamadosAtencion.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Fecha</label></div>
+                        <div class="input-contenedor">
+                            {{ formActualizar.fecha(class='form-control',id='numero_Documento_Usuario', placeholder="(Opcional)")}}
+                        </div>
+                    </div>
+                    {% for i in formActualizar.fecha.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Falta</label></div>
+                        <div class="input-contenedor">{{ formActualizar.falta(class='form-select') }}</div>
+                    </div>
+                    {% for i in formActualizar.falta.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Art. Incumplido</label></div>
+                        <div class="input-contenedor">{{ formActualizar.art_Incumplido(class='form-select') }}</div>
+                    </div>
+                    {% for i in formActualizar.art_Incumplido.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Tipo Falta</label></div>
+                        <div class="input-contenedor">{{ formActualizar.tipo_Falta(class='form-select') }}</div>
+                    </div>
+                    {% for i in formActualizar.tipo_Falta.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Motivo</label></div>
+                        <div class="input-contenedor">{{ formActualizar.motivo(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActualizar.motivo.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Plan de Mejora</label></div>
+                        <div class="input-contenedor file">{{ formActualizar.plan_Mejora(class='input-file') }}</div>
+                    </div>
+                    {% for i in formActualizar.plan_Mejora.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Firma Instructor</label></div>
+                        <div class="input-contenedor file">{{ formActualizar.firma_Instructor(class='input-file') }}</div>
+                    </div>
+                    {% for i in formActualizar.firma_Instructor.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Firma Aprendiz</label></div>
+                        <div class="input-contenedor file">{{ formActualizar.firma_Aprendiz(class='input-file') }}</div>
+                    </div>
+                    {% for i in formActualizar.firma_Aprendiz.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Firma Vocero</label></div>
+                        <div class="input-contenedor file">{{ formActualizar.firma_Vocero(class='input-file') }}</div>
+                    </div>
+                    {% for i in formActualizar.firma_Vocero.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group button">{{ formActualizar.submit(class='btn btn-success')}}</div>
+        {{ formActualizar.hidden_tag()}}
+    </form>
+</div>
+{% endblock %}

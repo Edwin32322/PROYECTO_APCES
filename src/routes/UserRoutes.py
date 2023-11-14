@@ -4,6 +4,7 @@ from ..services.UserService import UserService
 from ..services.AuthService import AuthService
 from ..models.Forms import  *
 import base64
+from ..models.Email import Email as Correo
 from flask import Blueprint, render_template, redirect, request, url_for, make_response
 from flask_login import login_required, current_user
 from ..routes.wrappers.wrappers import decorador_rol_usuario, decorador_estado_usuario
@@ -73,6 +74,7 @@ def registrarUsuario():
             )
             if UserService.checkear_email_en_bd(user):
                 UserService.registrar_usuario(user)
+                Correo().enviar_correo_general(user)
                 return render_template('registrarUsuario.html', form_user_register = form_user_register, datos_usuario_registrado = user, datos_usuario = datos_random_usuario,message_exito = 'Usuario registrado con éxito')
             else:
                 return render_template('registrarUsuario.html', form_user_register = form_user_register, datos_usuario = datos_random_usuario, message_err = 'Ya existe un usuario con ese correo')

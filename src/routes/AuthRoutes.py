@@ -89,7 +89,7 @@ def comprobar_validez_token(id, token):
     if current_user.is_authenticated:
         return redirect(url_for('users_blueprint.zonaPrincipal'))
     try:
-        current_app.config["SERIALIZER"].loads(token, max_age=3600)
+        current_app.config["SERIALIZER"].loads(token, max_age=300)
     except SignatureExpired:
         # El token ha expirado
         return "El enlace ha expirado"

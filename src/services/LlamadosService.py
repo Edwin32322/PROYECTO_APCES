@@ -7,28 +7,43 @@ from ..models.User import User
 
 class LlamadosService():
     #Método para registrar un usuario
+    
     @classmethod
-    def registrar_usuario(self, user):
+    def consultarLlamados(self):
         try:
             conexion = get_connection()
             with conexion.cursor() as cursor:
-                sql = """INSERT INTO Usuario (id_Usuario, numero_Documento_Usuario, tipoDoc_Usuario, telefono_Usuario, correo_Usuario, nombre_Usuario, contrasena_Usuario
-                , imagen_Usuario, estado_Usuario, id_Rol_FK) values(%s,
-                %s, %s, %s, %s, %s, %s, %s ,%s, %s)"""
+                sql = "SELECT * FROM LlamadoAtencion"
+                cursor.execute(sql)
+                return cursor.fetchall()
+        except Exception as e:
+            raise e
+        
+    @classmethod
+    def registrar_llamado(cls, llamado):
+        try:
+            conexion = get_connection()
+            with conexion.cursor() as cursor:
+                sql = """INSERT INTO LlamadoAtencion (num_Ficha, nombre_Aprendiz, correo_Aprendiz, num_LlamadosAtencion, 
+                        nombre_Instructor, fecha, falta, tipo_falta, art_incumplido, motivo, plan_Mejora, firma_Instructor, 
+                        firma_Aprendiz, firma_Vocero) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
                 datos = (
-                    user.id_Usuario, 
-                    user.numero_Documento_Usuario, 
-                    user.tipoDoc_Usuario, 
-                    user.telefono_Usuario,
-                    user.correo_Usuario, 
-                    user.nombre_Usuario, 
-                    generate_password(user.contrasena_Usuario), 
-                    user.imagen_Usuario,
-                    user.estado_Usuario,
-                    user.id_Rol_FK
+                    llamado.num_Ficha,
+                    llamado.nombre_Aprendiz,
+                    llamado.correo_Aprendiz,
+                    llamado.num_LlamadosAtencion,
+                    llamado.nombre_Instructor,
+                    llamado.fecha,
+                    llamado.falta,
+                    llamado.tipo_Falta,
+                    llamado.art_Incumplido,
+                    llamado.motivo,
+                    llamado.plan_Mejora,
+                    llamado.firma_Instructor,
+                    llamado.firma_Aprendiz,
+                    llamado.firma_Vocero
                 )
                 cursor.execute(sql, datos)
                 conexion.commit()
         except Exception as ex:
             raise ex
-    

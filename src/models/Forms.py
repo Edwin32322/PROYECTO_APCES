@@ -2,7 +2,7 @@
 #Validación de formularios por medio de Flask-WTF
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField,EmailField,IntegerField, SelectField, FileField, DateField
+from wtforms import StringField, validators, SubmitField,EmailField,IntegerField, SelectField, FileField, DateField, PasswordField
 
 from wtforms.validators import DataRequired, Email, NumberRange, ValidationError
 from flask_wtf.file import FileAllowed, FileRequired
@@ -20,7 +20,7 @@ class FormUser(FlaskForm):
         DataRequired(message='El campo del correo debe ser diligenciado'),
         Email(message="El correo no es correcto")
     ])
-    contrasena_Usuario = StringField('contrasena_Usuario', validators=[
+    contrasena_Usuario = PasswordField('contrasena_Usuario', validators=[
         DataRequired(message='El campo de la contraseña debe ser diligenciado')
     ]
     )
@@ -104,13 +104,14 @@ class FormularioRegistrarLlamado(FlaskForm):
     ])
     num_LlamadosAtencion = IntegerField("num_LlamadosAtencion", validators=[
         DataRequired('El campo es obligatorio y debe ser númerico'),
-        longitud_campo_integer_field,
         NumberRange(min=0, message='El campo debe ser un número positivo')
     ])
     nombre_Instructor = StringField("nombre_Instructor", validators=[
         DataRequired("El campo es requerido")
     ])
-    fecha = DateField()
+    fecha = DateField(validators=[
+        DataRequired(message="El campo es obligatorio")
+    ])
     falta = SelectField("falta", choices=[
         (1, "Grave"), (2, "Moderada"), (3, "Leve")
     ])

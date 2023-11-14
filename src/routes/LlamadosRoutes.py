@@ -47,5 +47,5 @@ def registrarLlamado():
 @calls.route("visualizarLlamados")
 def visualizarLlamados():
     llamados = LlamadosService.consultarLlamados()
-    return f"{llamados}"
+    return render_template("visualizarLlamados.html", llamados = llamados)
 

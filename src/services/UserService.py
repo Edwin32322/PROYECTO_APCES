@@ -3,8 +3,6 @@
 from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
 from ..models.User import User
-
-
 class UserService():
     #Método para registrar un usuario
     @classmethod

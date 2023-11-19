@@ -3,11 +3,10 @@
 from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
 from ..models.Llamado import Llamado 
-
+from ..uploads.ModificarArchivos import modificar_template
 
 class LlamadosService():
-    #Método para registrar un usuario
-    id = "2"
+ 
     @classmethod
     def consultarLlamados(self):
         try:
@@ -64,6 +63,10 @@ class LlamadosService():
                     llamado.firma_Vocero
                 )
                 cursor.execute(sql, datos)
+                if modificar_template(datos):
+                    print("ARCHIVO CREADO CON EXITO")
+                else: 
+                    print("Se presentó un error")
                 conexion.commit()
         except Exception as ex:
             raise ex

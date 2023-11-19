@@ -36,8 +36,6 @@ def registrarLlamado():
         )
         
         LlamadosService.registrar_llamado(llamado)
-        plan_Mejora_base64 = base64.b64encode(llamado.plan_Mejora).decode('utf-8')
-        llamado.plan_Mejora_base64 = 'data:application/pdf;base64,' + plan_Mejora_base64
         
         
         return redirect(url_for("calls_blueprint.visualizarLlamados"))
@@ -48,6 +46,13 @@ def registrarLlamado():
 def visualizarLlamados():
     llamados = LlamadosService.consultarLlamados()
     return render_template("visualizarLlamados.html", llamados = llamados)
+
+@calls.route("/visualizarLlamado/<int:id>")
+def visualizarLlamado(id):
+    llamado = LlamadosService.consultar_llamado_por_id(id)
+    plan_Mejora_base64 = base64.b64encode(llamado.plan_Mejora).decode('utf-8')
+    llamado.plan_Mejora = 'data:application/pdf;base64,' + plan_Mejora_base64
+    return render_template("visualizarLlamado.html", llamado = llamado)
 
 @calls.route("/modificarLlamado/<int:id>", methods=["POST","GET"])
 def modificarLlamado(id):

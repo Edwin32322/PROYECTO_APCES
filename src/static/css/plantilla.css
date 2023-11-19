@@ -1,0 +1,77 @@
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    margin: 0 50px; /* Ajuste del margen */
+}
+.datos-llamado {
+    display: grid;
+    grid-template-columns: repeat(3,);
+    font-size: 11pt;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 40px;
+}
+.datos-llamado > .row > div {
+    display: flex;
+    justify-content: center;
+    width: 280px;
+    height: 20px;
+    border-bottom: 1px solid black;
+}
+.datos-llamado > .row > span {
+    font-weight: 700;
+}
+
+.contenedor > img {
+    display: flex;
+    width: 100%;
+    height: auto; /* Ajuste de la altura */
+}
+.contenedor > p {
+    text-decoration: underline;
+    padding-left: 40px;
+    font-size: 11pt;
+    font-style: italic;
+}
+.contenedor > .texto.reglamento {
+    margin-top: 70px;
+}
+
+.grid {
+    padding-left: 40px;
+    display: grid;
+    gap: 50px; /* Ajuste del espacio entre elementos */
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.subrayado {
+    display: flex;
+    background-color: aliceblue;
+    width: 400px;
+    border-bottom: 1px solid black;
+}
+.subrayado.firma {
+    padding: 10px; /* Ajuste del espacio interno */
+}
+
+.columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.firma {
+    width: 100%;
+    height: auto; /* Ajuste de la altura */
+}
+.row {
+    display: flex;
+    gap: 7px;
+}
+.row > .subrayado {
+    width: 170px;
+}

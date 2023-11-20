@@ -46,26 +46,23 @@
                     </div>
                 </li>
                 <li class="opcion one">
+                    <a href="#"><img src="{{url_for('static', filename='img/usuarios.png')}}">Aprendices</a>
+                    <ul class="submenu two">
+                        <li><a href="/casos/crearCaso"><img src="{{url_for('static', filename='img/registrar.png')}}">Crear caso aprendiz</a></li>
+                        <li><a href="/casos/visualizarCasos"><img src="{{url_for('static', filename= 'img/visualizar.png')}}">Visualizar casos de aprendiz</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one">
                     <a href="#"><img src="{{url_for('static', filename='img/llamados.png')}}">Llamados de atención</a>
                     <ul class="submenu two">
                         <li><a href="/llamados/registrarLlamado"><img src="{{url_for('static', filename='img/registrar.png')}}">Registrar llamado de atención</a></li>
-                        <li><a href="/llamados/visualizarLlamado"><img src="{{url_for('static', filename= 'img/visualizar.png')}}">Visualizar llamados de atención</a></li>
+                        <li><a href="/llamados/visualizarLlamados"><img src="{{url_for('static', filename= 'img/visualizar.png')}}">Visualizar llamados de atención</a></li>
                     </ul>
                 </li>
                 <li class="opcion one flex-row"><a href="#"><img src="{{url_for('static', filename='img/citaciones.png')}}">Citaciones</a>
                     <ul class="submenu two">
-                        <li><a href="/generarCitacion"><img src="{{url_for('static', filename='img/enviar.png')}}">Enviar citación</a></li>
-                    </ul>
-                </li>
-                <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/actas.png')}}">Actas</a>
-                    <ul class="submenu two">
-                        <li><a href="/generarActa"><img src="{{url_for('static', filename='img/generar.png')}}">Visualizar Acta General</a></li>
-                        <!-- <li><a href="/visualizarActas"><img src="{{url_for('static', filename='img/visualizar.png')}}">Visualizar actas</a></li> -->
-                    </ul>
-                </li>
-                <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/usuarios.png')}}">Usuarios</a>
-                    <ul class="submenu two">
-                        <li><a href="/usuario/visualizarUsuarios"><img src="{{url_for('static', filename='img/visualizarusua.png')}}">Visualizar Usuarios</a></li>
+                        <li><a href="/citacion/solicitarCitacion"><img src="{{url_for('static', filename='img/enviar.png')}}">Solicitar citación</a></li>
+                        <li><a href="/citacion/visualizarSolicitudes"><img src="{{url_for('static', filename='img/enviar.png')}}">Visualizar solicitudes de citación</a></li>
                     </ul>
                 </li>
                 <li class="opcion one"><a href="#"><img src="{{url_for('static', filename='img/repor.png')}}">Reportes</a>

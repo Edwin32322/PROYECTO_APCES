@@ -82,12 +82,7 @@ class UserProfile(FlaskForm):
     ], validators=[
         DataRequired(message='Este campo es obligatorio')
     ])
-    id_Rol_FK = SelectField('rol_Usuario',choices=[
-        (1, 'Administrador'), (2, 'Instructor')
-    ], validators=[
-        DataRequired(message='Este campo es obligatorio')
-    ])
-    
+
 class FormularioRegistrarLlamado(FlaskForm):
     num_Ficha = IntegerField("num_Ficha", validators=[
         DataRequired('El campo es obligatorio y debe ser númerico'),
@@ -144,3 +139,52 @@ class FormularioRegistrarLlamado(FlaskForm):
         FileRequired("Debe haber un archivo cargado")
     ])
     submit = SubmitField('Registrar')
+
+
+class FormularioCrearCasoAprendiz(FlaskForm):
+
+    tipo_Documento = SelectField('tipo_Documento', choices=[
+        ('Cédula de Ciudadanía'), ('Cédula de extranjería'), ('PEP')
+    ])
+    num_Documento = IntegerField('num_Documento', validators=[
+        DataRequired('El campo es obligatorio y debe ser númerico'),
+        longitud_campo_integer_field,
+        NumberRange(min=0, message='El campo debe ser un número positivo')
+    ])
+    num_Ficha = IntegerField("num_Ficha", validators=[
+        DataRequired('El campo es obligatorio y debe ser númerico'),
+        longitud_campo_integer_field,
+        NumberRange(min=0, message='El campo debe ser un número positivo')
+    ])
+    nombre_Aprendiz = StringField("nombre_Aprendiz", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    correo_Aprendiz = EmailField("correo_Aprendiz", validators=[
+        DataRequired("El campo es requerido"),
+        Email(message="El correo no es correcto")
+    ])
+
+    submit = SubmitField('Registrar')
+
+
+class FormularioSolicitarCitacion(FlaskForm):
+
+    num_Ficha = IntegerField("num_Ficha", validators=[
+        DataRequired('El campo es obligatorio y debe ser númerico'),
+        longitud_campo_integer_field,
+        NumberRange(min=0, message='El campo debe ser un número positivo')
+    ])
+    nombre_Aprendiz = StringField("nombre_Aprendiz", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    correo_Aprendiz = EmailField("correo_Aprendiz", validators=[
+        DataRequired("El campo es requerido"),
+        Email(message="El correo no es correcto")
+    ])
+    llamados = FileField("llamados", validators=[
+        DataRequired("El campo es requerido"),
+        FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
+        FileRequired("Debe haber un archivo cargado")
+    ])
+
+    submit = SubmitField('Enviar')

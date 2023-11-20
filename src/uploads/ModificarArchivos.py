@@ -12,7 +12,7 @@ def modificar_template(datos):
         template_path = Path(__file__).parent.parent / "documents" / "Llamado_Atencion.docx"
 
         # Ruta y nombre de archivo donde deseas guardar el documento modificado
-        output_path = Path(__file__).parent.parent / "documents" / "DocumentoModificado.docx"
+        output_path = Path(__file__).parent.parent / "documents" / "temporales" /"DocumentoModificado.docx"
 
         # Cargar la plantilla existente
         doc = DocxTemplate(template_path)
@@ -33,6 +33,7 @@ def modificar_template(datos):
         context = {
             "fecha": datos[5],
             "nombre_Aprendiz": datos[1],
+            "nombre_Instructor" : datos[4],
             "num_Ficha": datos[0],
             "motivo": datos[9],
             "firma_Aprendiz": imgAprendizCar,
@@ -47,7 +48,7 @@ def modificar_template(datos):
         doc.save(output_path)
 
         # Convertir el documento Word a PDF
-        pdf_output_path = Path(__file__).parent.parent / "documents" / "DocumentoModificado.pdf"
+        pdf_output_path = Path(__file__).parent.parent / "documents" / "temporales" / "DocumentoModificado.pdf"
         convert(output_path, pdf_output_path)
 
         return pdf_output_path  # Devuelve la ruta del PDF generado

@@ -61,10 +61,12 @@ Visualizar Usuario
         </div>
     </div>
     <div class="opciones-modificar">
-        {% if current_user.id_Rol_FK == 1%}
-            <form action="/usuario/modificarEstado/{{user.id_Usuario}}" method="get">
+        {% if current_user.id_Rol_FK == 1 or current_user.id_Rol_FK == 2%}
+            {% if current_user.id_Rol_FK != 2%}
+            <form action="/usuario/modificarEstado/{{user.estado_Usuario}}/{{user.id_Usuario}}" method="get">
                 <button class="btn btn-primary" id="modificar-estado">Modificar Estado</button>
             </form>
+            {% endif%}
             <form action="/usuario/modificarUsuario/{{user.id_Usuario}}" method="get">
                 <button class="btn btn-primary" id="modificar-usuario">Modificar Usuario</button>
             </form>

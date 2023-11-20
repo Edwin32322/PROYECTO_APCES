@@ -64,21 +64,6 @@
                 </div>
                 <div class="form-group">
                     <div class="campos">
-                        <div class="label-contenedor"><label>Rol</label></div>
-                        <div class="input-contenedor">
-                            <select name="id_Rol_FK" class="form-select" disabled=True>
-                            {% for choice in userProfile.id_Rol_FK.choices %}
-                                <option value="{{ choice[0] }}" {% if choice[0] == userProfile.id_Rol_FK.data %}selected{% endif %}>{{ choice[1] }}</option>
-                            {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    {% for error in userProfile.correo_Usuario.errors%}
-                    <div class="errors"><span style="color: red;">{{error}}</span></div>
-                {% endfor %}
-                </div>
-                <div class="form-group">
-                    <div class="campos">
                         <div class="label-contenedor"><label>Estado</label></div>
                         <div class="input-contenedor">{{userProfile.estado_Usuario(class='form-control')}}</div>
                     </div>

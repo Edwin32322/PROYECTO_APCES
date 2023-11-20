@@ -1,0 +1,51 @@
+
+
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+
+
+{% block title %}Visualizar Usuarios{% endblock %}
+
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/visualizarUsuarios.css')}}">
+{% endblock %}
+
+{% block body %}
+<div class="lista_contenidos">
+    <div class="filtro">
+        <div class="filtrar">
+            <label for="rol_usuario">Nombre del aprendiz</label>
+            <input type="text" class="form-control" id="filtrarAprendiz">
+        </div>
+    </div>
+    <div class="lista">
+        <ul class="">
+            {% if casos %}
+            {% for caso in casos %}
+                <li data-name="{{caso.nombre_Aprendiz}}">
+                <a href="visualizarCaso/{{ caso.id_CasoAprendiz }}">
+                    <div class="contenedor_imagen">
+                        <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
+                    </div>
+                    <div class="contenedor_texto">
+                        <span>Aprendiz: {{ caso.nombre_Aprendiz }}</span>
+                    </div>
+                </a>
+                <div>
+                <a href="/casos/modificarCaso/{{caso.id_CasoAprendiz}}">Modificar Caso</a>
+                </div>
+            </li>
+            {% endfor %}
+            {% else %}
+            <p>No hay llamados realizados.</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+{% block CustomJs %}
+<script src="{{url_for('static', filename='js/cambiarFiltroCaso.js')}}"></script>
+{% endblock %}

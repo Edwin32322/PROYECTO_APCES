@@ -30,15 +30,6 @@ def visualizarUsuarios():
     return render_template('visualizarUsuarios.html', users = users)
 
 
-
-#Ruta que renderiza la vista para modificar el estado del usuario
-@users.route('/modificarEstado/<int:id>', methods=['POST'])
-@login_required
-@decorador_rol_usuario('Administrador')
-@decorador_estado_usuario()
-def modificarEstado(id):
-    return render_template('modificarEstadoUsuario.html', id = id)
-
 #Ruta para modifcar el estado
 @users.route('/modificarEstado/<string:opcion>/<int:id>')
 @login_required
@@ -93,7 +84,6 @@ def modificarUsuario(id):
             user.correo_Usuario = userProfile.correo_Usuario.data
             user.nombre_Usuario = userProfile.nombre_Usuario.data
             user.estado_Usuario = userProfile.estado_Usuario.data
-            user.id_Rol_FK = userProfile.id_Rol_FK.data
             if UserService.actualizar_usuario(user):
                 return redirect(url_for('users_blueprint.verUsuario', id=user.id_Usuario))
             else:
@@ -106,7 +96,6 @@ def modificarUsuario(id):
         userProfile.correo_Usuario.data = user.correo_Usuario
         userProfile.telefono_Usuario.data = user.telefono_Usuario
         userProfile.estado_Usuario.data = user.estado_Usuario
-        userProfile.id_Rol_FK.data = user.id_Rol_FK
         return render_template("perfilUsuario.html", userProfile = userProfile)
 
 

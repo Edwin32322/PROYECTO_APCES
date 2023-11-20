@@ -1,0 +1,90 @@
+{% extends 'layoutInstructor.html' %}
+
+{% block title %}Crear caso aprendiz{% endblock %}
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/estilosFormularios.css")}}'>
+{% endblock %}
+{% block body %}
+
+
+
+<div class="formulario">
+  {% if message_err %}
+  <div class="alert alert-danger" role="alert">
+    {{message_err}}
+  </div>
+  {% endif%}
+  {% if message_exito %}
+  <div class="alert alert-success" role="alert">
+    <span class="row">{{message_exito}}</span>
+    <span class="row">Usuario: {{datos_usuario_registrado.nombre_Usuario}}</span>
+    <span class="row">Contraseña: {{datos_usuario_registrado.contrasena_Usuario}}</span>
+  </div>
+  {% endif%}
+  
+  <form action="/casos/modificarCaso/{{formModificarCaso.id_CasoAprendiz}}" method="post" class="form" novalidate>
+    <div class="encabezado">
+      <h2>Modificar Caso Aprendiz</h2>
+    </div>
+    <div class="bloque">
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+      <div class="campos-dobles">
+        <div class="form-group">
+          <div class="campos">
+            <div class="label-contenedor"><label for="">Tipo Doc.</label></div>
+            <div class="input-contenedor">
+              {{ formModificarCaso.tipo_Documento(class='form-select', id='tipo_Documento') }}</div>
+          </div>
+          {% for i in formModificarCaso.tipo_Documento.errors %}
+          <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <div class="campos">
+            <div class="label-contenedor"><label  for="">Núm Doc.</label></div>
+            <div class="input-contenedor">
+              {{ formModificarCaso.num_Documento(class='form-control',id='num_Documento', placeholder='Obligatorio')}}
+            </div>
+          </div>
+          {% for i in formModificarCaso.num_Documento.errors %}
+          <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="campos-dobles">
+        <div class="form-group">
+            <div class="campos">
+              <div class="label-contenedor"><label for="">Núm Ficha</label></div>
+              <div class="input-contenedor">{{ formModificarCaso.num_Ficha(class='form-control', id='num_Ficha')}}</div>
+            </div>
+            {% for i in formModificarCaso.num_Ficha.errors %}
+            <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
+            {% endfor %}
+          </div>
+        <div class="form-group">
+            <div class="campos">
+              <div class="label-contenedor"><label for="">Nombre Aprendiz</label></div>
+              <div class="input-contenedor">{{ formModificarCaso.nombre_Aprendiz(class='form-control', id='nombre_Aprendiz')}}</div>
+            </div>
+            {% for i in formModificarCaso.nombre_Aprendiz.errors %}
+            <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="campos-dobles">
+        <div class="form-group">
+          <div class="campos">
+            <div class="label-contenedor"><label for="">Correo Aprendiz</label></div>
+            <div class="input-contenedor">{{ formModificarCaso.correo_Aprendiz(class='form-control', id='correo_Aprendiz', placeholder='example@sena.edu.co') }}</div>
+          </div>
+          {% for i in formModificarCaso.correo_Aprendiz.errors %}
+          <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+      <div class="form-group button">{{ formModificarCaso.submit(class='btn btn-success')}}</div>
+      {{ formModificarCaso.hidden_tag()}}
+    </form>
+  </div>
+  {% endblock %}

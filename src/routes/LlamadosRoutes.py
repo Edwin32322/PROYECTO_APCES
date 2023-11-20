@@ -2,6 +2,9 @@
 from src.models.Llamado import Llamado
 from ..services.LlamadosService import LlamadosService
 from ..models.Forms import  *
+from io import BytesIO
+from werkzeug.datastructures import FileStorage
+
 import base64
 from io import BytesIO
 from flask import Blueprint, render_template, redirect, request, url_for, make_response, send_file
@@ -58,7 +61,28 @@ def visualizarLlamado(id):
 def modificarLlamado(id):
     formActualizar = FormularioRegistrarLlamado()
     modificarLamado = LlamadosService.consultar_llamado_por_id(id)
-    if modificarLamado != None:
+    if formActualizar.validate_on_submit():
+        if request.method == "POST":
+            llamadoObj = Llamado(
+            id_LlamadoAtencion= id,
+            num_Ficha = formActualizar.num_Ficha.data,
+            nombre_Aprendiz = formActualizar.nombre_Aprendiz.data,
+            correo_Aprendiz =  formActualizar.correo_Aprendiz.data,
+            num_LlamadosAtencion = formActualizar.num_LlamadosAtencion.data,
+            nombre_Instructor = formActualizar.nombre_Instructor.data,
+            fecha = formActualizar.fecha.data,
+            falta = formActualizar.falta.data,
+            tipo_Falta= formActualizar.tipo_Falta.data,
+            art_Incumplido = formActualizar.art_Incumplido.data,
+            motivo = formActualizar.motivo.data,
+            plan_Mejora = formActualizar.plan_Mejora.data.read(),
+            firma_Instructor = formActualizar.firma_Instructor.data.read(),
+            firma_Aprendiz = formActualizar.firma_Aprendiz.data.read(),
+            firma_Vocero = formActualizar.firma_Vocero.data.read()
+            )
+            LlamadosService.actualizar_llamado(llamadoObj)
+            return redirect(url_for("calls_blueprint.visualizarLlamados"))
+    else:     
         formActualizar.id_LlamadoAtencion = id
         formActualizar.num_Ficha.data = int(modificarLamado.num_Ficha)
         formActualizar.nombre_Aprendiz.data = modificarLamado.nombre_Aprendiz
@@ -70,32 +94,7 @@ def modificarLlamado(id):
         formActualizar.tipo_Falta.data = modificarLamado.tipo_Falta
         formActualizar.art_Incumplido.data = modificarLamado.art_Incumplido
         formActualizar.motivo.data = modificarLamado.motivo
-        plan_Mejora_base64 = base64.b64encode(modificarLamado.plan_Mejora).decode('utf-8')
-        formActualizar.plan_Mejora.data = plan_Mejora_base64
-        formActualizar.firma_Instructor.data = modificarLamado.firma_Instructor
-        formActualizar.firma_Aprendiz.data = modificarLamado.firma_Aprendiz
-        formActualizar.firma_Vocero.data = modificarLamado.firma_Vocero
-        print(formActualizar.firma_Aprendiz.data)
-        if formActualizar.validate_on_submit() and request.method == "POST":
-            llamadoObj = Llamado(
-                id_LlamadoAtencion= id,
-                num_Ficha = formActualizar.num_Ficha.data,
-                nombre_Aprendiz = formActualizar.nombre_Aprendiz.data,
-                correo_Aprendiz =  formActualizar.correo_Aprendiz.data,
-                num_LlamadosAtencion = formActualizar.num_LlamadosAtencion.data,
-                nombre_Instructor = formActualizar.nombre_Instructor.data,
-                fecha = formActualizar.fecha.data,
-                falta = formActualizar.falta.data,
-                tipo_Falta= formActualizar.tipo_Falta.data,
-                art_Incumplido = formActualizar.art_Incumplido.data,
-                motivo = formActualizar.motivo.data,
-                plan_Mejora = formActualizar.plan_Mejora.data.read(),
-                firma_Instructor = formActualizar.firma_Instructor.data.read(),
-                firma_Aprendiz = formActualizar.firma_Aprendiz.data.read(),
-                firma_Vocero = formActualizar.firma_Vocero.data.read()
-            )
-            LlamadosService.actualizar_llamado(llamadoObj)
-            return "Llamado actualizado"
+
     return render_template("modificarLlamado.html", formActualizar = formActualizar) 
 
 

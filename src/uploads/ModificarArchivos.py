@@ -18,21 +18,26 @@ def modificar_template(datos):
         doc = DocxTemplate(template_path)
 
         # Obtener el contenido de la imagen desde los datos
-        img_stream = datos[13]
-
+        img_Aprendiz = datos[12]
+        img_Instructor = datos[11]
+        img_Vocero = datos[13]
         # Crear un objeto BytesIO para trabajar con el contenido de la imagen
-        img_bytesio = BytesIO(img_stream)
-
+        img_AprendizByt = BytesIO(img_Aprendiz)
+        img_InstructorByt = BytesIO(img_Instructor)
+        img_VoceroByt = BytesIO(img_Vocero)
         # Crear un objeto InlineImage
-        img = InlineImage(doc, img_bytesio, width=Mm(50), height=Mm(15))
-
+        imgAprendizCar = InlineImage(doc, img_AprendizByt, width=Mm(50), height=Mm(15))
+        imgInstructorCar = InlineImage(doc, img_InstructorByt, width=Mm(50), height=Mm(15))
+        imgVoceroCar = InlineImage(doc, img_VoceroByt, width=Mm(50), height=Mm(15) )
         # Agregar datos al contexto
         context = {
-            "fecha": datos[0],
+            "fecha": datos[5],
             "nombre_Aprendiz": datos[1],
-            "num_Ficha": datos[2],
-            "motivo": datos[3],
-            "firma_Aprendiz": img,
+            "num_Ficha": datos[0],
+            "motivo": datos[9],
+            "firma_Aprendiz": imgAprendizCar,
+            "firma_Instructor" : imgInstructorCar,
+            "firma_Vocero" : imgVoceroCar
         }
 
         # Renderizar la plantilla con los datos

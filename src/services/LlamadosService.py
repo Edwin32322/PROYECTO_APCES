@@ -110,7 +110,7 @@ class LlamadosService():
             with conexion.cursor() as cursor:
                 sql = """UPDATE LlamadoAtencion SET num_Ficha = %s, nombre_Aprendiz = %s, correo_Aprendiz = %s, num_LlamadosAtencion = %s, 
                         nombre_Instructor = %s, fecha = %s, falta = %s, tipo_falta = %s, art_incumplido = %s, motivo = %s, plan_Mejora = %s, firma_Instructor = %s, 
-                        firma_Aprendiz = %s, firma_Vocero = %s Where idLlamadoAtencion = %s"""
+                        firma_Aprendiz = %s, firma_Vocero = %s Where id_LlamadoAtencion = %s"""
                 datos = (
                     llamado.num_Ficha,
                     llamado.nombre_Aprendiz,
@@ -130,5 +130,6 @@ class LlamadosService():
                 )
                 cursor.execute(sql, datos)
                 conexion.commit()
+                return True
         except Exception as ex:
             raise ex

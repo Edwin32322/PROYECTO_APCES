@@ -39,14 +39,14 @@ class LlamadosService():
             raise e
         
     @classmethod
-    def registrar_llamado(cls, llamado):
+    def registrar_llamado(cls, llamado, caso, usuario):
         try:
             conexion = get_connection()
             with conexion.cursor() as cursor:
                 sql = """INSERT INTO LlamadoAtencion (num_Ficha, nombre_Aprendiz, correo_Aprendiz, num_LlamadosAtencion, 
                         nombre_Instructor, fecha, falta, tipo_falta, art_incumplido, motivo, plan_Mejora, firma_Instructor, 
-                        firma_Aprendiz, firma_Vocero) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                datos = (
+                        firma_Aprendiz, firma_Vocero, id_CasoAprendizFK, id_UsuarioFK) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                datos = [
                     llamado.num_Ficha,
                     llamado.nombre_Aprendiz,
                     llamado.correo_Aprendiz,
@@ -60,9 +60,12 @@ class LlamadosService():
                     llamado.plan_Mejora,
                     llamado.firma_Instructor,
                     llamado.firma_Aprendiz,
-                    llamado.firma_Vocero
-                )
+                    llamado.firma_Vocero,
+                    caso.id_CasoAprendiz,
+                    usuario.id_Usuario
+                ]
                 cursor.execute(sql, datos)
+                datos.append(caso.programa_Formacion)
                 if modificar_template(datos):
                     print("ARCHIVO CREADO CON EXITO")
                 else: 

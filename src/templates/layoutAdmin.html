@@ -46,6 +46,13 @@
                     </div>
                 </li>
                 <li class="opcion one">
+                    <a href="#"><img src="{{url_for('static', filename='img/usuarios.png')}}">Aprendices</a>
+                    <ul class="submenu two">
+                        <li><a href="/casos/crearCaso"><img src="{{url_for('static', filename='img/registrar.png')}}">Crear caso aprendiz</a></li>
+                        <li><a href="/casos/visualizarCasos"><img src="{{url_for('static', filename= 'img/visualizar.png')}}">Visualizar casos de aprendiz</a></li>
+                    </ul>
+                </li>
+                <li class="opcion one">
                     <a href="#"><img src="{{url_for('static', filename='img/llamados.png')}}">Llamados de atención</a>
                     <ul class="submenu two">
                         <li><a href="/llamados/registrarLlamado"><img src="{{url_for('static', filename='img/registrar.png')}}">Registrar llamado de atención</a></li>

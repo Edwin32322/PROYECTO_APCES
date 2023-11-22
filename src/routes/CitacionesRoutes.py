@@ -1,5 +1,5 @@
 from src.models.SolicitarCita import solicitarCitacion
-from ..services.SolicitarCitacionServices import SolicitarCitacionService
+from ..services.CitacionesService import CitacionesService
 from ..services.LlamadosService import LlamadosService
 from ..models.Forms import  *
 import base64
@@ -24,7 +24,7 @@ def solicitudCita():
             llamados = request.files["llamados"].read(), 
         )
         
-        SolicitarCitacionService.solicitar_citacion(solicitar)
+        CitacionesService.solicitar_citacion(solicitar)
         
         return "Hola"
         # return redirect(url_for("calls_blueprint.visualizarSolicitudes"))

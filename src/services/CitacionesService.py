@@ -4,7 +4,7 @@ from ..helpers.helpers import generate_password
 from ..models.Casos import casosAprendiz 
 from ..uploads.ModificarArchivos import modificar_template
 
-class SolicitarCitacionService():
+class CitacionesService():
 
     @classmethod
     def solicitar_citacion(cls, solicitud):

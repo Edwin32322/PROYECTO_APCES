@@ -31,13 +31,14 @@ def modificar_template(datos):
         imgVoceroCar = InlineImage(doc, img_VoceroByt, width=Mm(50), height=Mm(15) )
         # Agregar datos al contexto
         context = {
-            "fecha": datos[5],
+            "num_Ficha": datos[0],
+            "programa_Formacion" : datos[16],
             "nombre_Aprendiz": datos[1],
             "nombre_Instructor" : datos[4],
-            "num_Ficha": datos[0],
+            "fecha": datos[5],
             "motivo": datos[9],
-            "firma_Aprendiz": imgAprendizCar,
             "firma_Instructor" : imgInstructorCar,
+            "firma_Aprendiz": imgAprendizCar,
             "firma_Vocero" : imgVoceroCar
         }
 

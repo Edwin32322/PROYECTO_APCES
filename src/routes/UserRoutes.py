@@ -65,7 +65,7 @@ def registrarUsuario():
             )
             if UserService.checkear_email_en_bd(user):
                 UserService.registrar_usuario(user)
-                Correo().enviar_correo_general(user)
+                # Correo().enviar_correo_general(user)
                 return render_template('registrarUsuario.html', form_user_register = form_user_register, datos_usuario_registrado = user, datos_usuario = datos_random_usuario,message_exito = 'Usuario registrado con éxito')
             else:
                 return render_template('registrarUsuario.html', form_user_register = form_user_register, datos_usuario = datos_random_usuario, message_err = 'Ya existe un usuario con ese correo')

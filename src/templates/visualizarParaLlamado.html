@@ -14,6 +14,13 @@
 {% endblock %}
 
 {% block body %}
+{% with message = get_flashed_messages()[0]%}
+{% if message %}
+<div class="alert alert-danger" role="alert">
+    <span class="row">{{message}}</span>
+  </div>
+{% endif %}
+{% endwith%}
 <div class="lista_contenidos">
     <div class="filtro">
         <div class="filtrar">
@@ -31,11 +38,11 @@
                         <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
                     </div>
                     <div class="contenedor_texto">
-                        <span>Aprendiz: {{ caso.nombre_Aprendiz }} || Ficha: {{caso.num_Ficha}}</span>
+                        <span>Aprendiz: {{ caso.nombre_Aprendiz }}</span>
                     </div>
                 </a>
                 <div>
-                <a href="/casos/modificarCaso/{{caso.id_CasoAprendiz}}">Modificar Caso</a>
+                    <a href="/llamados/registrarLlamado/caso/{{caso.id_CasoAprendiz}}">Registrar Llamado</a>
                 </div>
             </li>
             {% endfor %}

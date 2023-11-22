@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const filtrarAprendiz = document.getElementById("filtrarAprendiz");
     const usuarios = document.querySelectorAll(".lista ul li");

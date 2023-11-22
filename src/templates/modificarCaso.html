@@ -9,18 +9,21 @@
 
 
 <div class="formulario">
-  {% if message_err %}
+  {% with messages = get_flashed_messages()%}
+  {% if messages %}
+  {% for message in messages%}
+  {% if message == "El aprendiz ya cuenta con un caso" %}
   <div class="alert alert-danger" role="alert">
-    {{message_err}}
+    <span class="row">{{message}}</span>
   </div>
-  {% endif%}
-  {% if message_exito %}
+  {% else %}
   <div class="alert alert-success" role="alert">
-    <span class="row">{{message_exito}}</span>
-    <span class="row">Usuario: {{datos_usuario_registrado.nombre_Usuario}}</span>
-    <span class="row">Contraseña: {{datos_usuario_registrado.contrasena_Usuario}}</span>
+    <span class="row">{{message}}</span>
   </div>
-  {% endif%}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  {% endwith%}
   
   <form action="/casos/modificarCaso/{{formModificarCaso.id_CasoAprendiz}}" method="post" class="form" novalidate>
     <div class="encabezado">

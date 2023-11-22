@@ -22,19 +22,26 @@
     </div>
     {% endif%}
     
-    <form action="/llamados/registrarLlamado"  enctype="multipart/form-data" method="post" class="form" novalidate>
+    <form action="/llamados/registrarLlamado/caso/{{formRegistrar.id_CasoAprendiz}}"  enctype="multipart/form-data" method="POST" class="form" novalidate>
         <div class="encabezado">
             <h2>Registrar Llamado</h2>
         </div>
+        {% with message = get_flashed_messages()%}
+        {% if message %}
+        <div class="alert alert-danger" role="alert">
+            <span class="row">{{message}}</span>
+          </div>
+        {% endif %}
+        {% endwith%}
         <div class="bloque">
             <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
             <div class="campos-largos">
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label for="">Num. Ficha</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.num_Ficha(class='form-control', id='nombre_Usuario')}}</div>
+                        <div class="input-contenedor">{{ formRegistrar.num_Ficha(class='form-control', id='nombre_Usuario')}}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.num_Ficha.errors %}
+                    {% for i in formRegistrar.num_Ficha.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -42,9 +49,9 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label for="">Nombre Aprendiz</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.nombre_Aprendiz(class='form-control', id='nombre_Usuario')}}</div>
+                        <div class="input-contenedor">{{ formRegistrar.nombre_Aprendiz(class='form-control', id='nombre_Usuario')}}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.nombre_Aprendiz.errors %}
+                    {% for i in formRegistrar.nombre_Aprendiz.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -54,10 +61,10 @@
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Nombre Instructor</label></div>
                         <div class="input-contenedor">
-                            {{ formRegistrarLlamado.nombre_Instructor(class='form-control')}}
+                            {{ formRegistrar.nombre_Instructor(class='form-control')}}
                         </div>
                     </div>
-                    {% for i in formRegistrarLlamado.nombre_Instructor.errors %}
+                    {% for i in formRegistrar.nombre_Instructor.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -66,9 +73,9 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label for="">Correo Aprendiz</label></div>
-                        <div class="input-contenedor"> {{ formRegistrarLlamado.correo_Aprendiz(class='form-control',id='contrasena_Usuario') }}</div>
+                        <div class="input-contenedor"> {{ formRegistrar.correo_Aprendiz(class='form-control',id='contrasena_Usuario') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.correo_Aprendiz.errors %}
+                    {% for i in formRegistrar.correo_Aprendiz.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -76,10 +83,10 @@
                     <div class="campos">
                         <div class="label-contenedor"><label for="">Llamados Atencion</label></div>
                         <div class="input-contenedor">
-                            {{ formRegistrarLlamado.num_LlamadosAtencion(class="form-control", id='tipoDoc_Usuario') }}
+                            {{ formRegistrar.num_LlamadosAtencion(class="form-control", id='tipoDoc_Usuario') }}
                         </div>
                     </div>
-                    {% for i in formRegistrarLlamado.num_LlamadosAtencion.errors %}
+                    {% for i in formRegistrar.num_LlamadosAtencion.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -89,19 +96,19 @@
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Fecha</label></div>
                         <div class="input-contenedor">
-                            {{ formRegistrarLlamado.fecha(class='form-control',id='numero_Documento_Usuario', placeholder="(Opcional)")}}
+                            {{ formRegistrar.fecha(class='form-control',id='numero_Documento_Usuario', placeholder="(Opcional)")}}
                         </div>
                     </div>
-                    {% for i in formRegistrarLlamado.fecha.errors %}
+                    {% for i in formRegistrar.fecha.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Falta</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.falta(class='form-select') }}</div>
+                        <div class="input-contenedor">{{ formRegistrar.falta(class='form-select') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.falta.errors %}
+                    {% for i in formRegistrar.falta.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -110,18 +117,18 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Art. Incumplido</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.art_Incumplido(class='form-select') }}</div>
+                        <div class="input-contenedor">{{ formRegistrar.art_Incumplido(class='form-select') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.art_Incumplido.errors %}
+                    {% for i in formRegistrar.art_Incumplido.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Tipo Falta</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.tipo_Falta(class='form-select') }}</div>
+                        <div class="input-contenedor">{{ formRegistrar.tipo_Falta(class='form-select') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.tipo_Falta.errors %}
+                    {% for i in formRegistrar.tipo_Falta.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -130,9 +137,9 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Motivo</label></div>
-                        <div class="input-contenedor">{{ formRegistrarLlamado.motivo(class='form-control') }}</div>
+                        <div class="input-contenedor">{{ formRegistrar.motivo(class='form-control') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.motivo.errors %}
+                    {% for i in formRegistrar.motivo.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -141,18 +148,18 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Plan de Mejora</label></div>
-                        <div class="input-contenedor file">{{ formRegistrarLlamado.plan_Mejora(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.plan_Mejora(class='input-file') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.plan_Mejora.errors %}
+                    {% for i in formRegistrar.plan_Mejora.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Instructor</label></div>
-                        <div class="input-contenedor file">{{ formRegistrarLlamado.firma_Instructor(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Instructor(class='input-file') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.firma_Instructor.errors %}
+                    {% for i in formRegistrar.firma_Instructor.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
@@ -161,25 +168,25 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Aprendiz</label></div>
-                        <div class="input-contenedor file">{{ formRegistrarLlamado.firma_Aprendiz(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Aprendiz(class='input-file') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.firma_Aprendiz.errors %}
+                    {% for i in formRegistrar.firma_Aprendiz.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Vocero</label></div>
-                        <div class="input-contenedor file">{{ formRegistrarLlamado.firma_Vocero(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Vocero(class='input-file') }}</div>
                     </div>
-                    {% for i in formRegistrarLlamado.firma_Vocero.errors %}
+                    {% for i in formRegistrar.firma_Vocero.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
                     {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="form-group button">{{ formRegistrarLlamado.submit(class='btn btn-success')}}</div>
-        {{ formRegistrarLlamado.hidden_tag()}}
+        <div class="form-group button">{{ formRegistrar.submit(class='btn btn-success')}}</div>
+        {{ formRegistrar.hidden_tag()}}
     </form>
 </div>
 {% endblock %}

@@ -3,7 +3,22 @@ import pythoncom
 from pathlib import Path
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
-def modificar_template(datos, id_CasoAprendiz):
+from docx2pdf import convert  # Importa la función convert de docx2pdf
+def covertir_a_pdf(temp_docx_path):
+    try:
+        pythoncom.CoInitialize()
+        pdf_output_path = Path(__file__).parent.parent / "documents" / "temporales" / "DocumentoModificado.pdf"
+
+        # Convierte el archivo DOCX temporal a PDF
+        convert(temp_docx_path, pdf_output_path)
+        return pdf_output_path
+    except Exception as e:
+        print(f"Error en la conversión a PDF: {e}")
+        raise e
+    finally:
+        pythoncom.CoUninitialize()
+        
+def modificar_template(datos):
     try:
         pythoncom.CoInitialize()
 
@@ -34,7 +49,6 @@ def modificar_template(datos, id_CasoAprendiz):
         # Agregar datos al contexto
         context = {
             "num_Ficha": datos[0],
-            "programa_Formacion" : datos[16],
             "nombre_Aprendiz": datos[1],
             "nombre_Instructor" : datos[4],
             "fecha": datos[5],
@@ -52,3 +66,5 @@ def modificar_template(datos, id_CasoAprendiz):
         return output_path  # Devuelve la ruta del documento DOCX generado
     except Exception as e:
         raise e
+    finally:
+        pythoncom.CoUninitialize()

@@ -1,10 +1,11 @@
 
 #Importamos la conexión a BD
+import celery
+from src.models.Archivos import ArchivosLlamadosAtencion
 from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
 from ..models.Llamado import Llamado 
-from ..uploads.ModificarArchivos import modificar_template
-
+from ..uploads.ModificarArchivos import covertir_a_pdf, modificar_template
 class LlamadosService():
  
     @classmethod
@@ -65,17 +66,18 @@ class LlamadosService():
                     usuario.id_Usuario
                 ]
                 cursor.execute(sql, datos)
+                conexion.commit()
                 datos.append(caso.programa_Formacion)
-                documento =  modificar_template(datos, caso.id_CasoAprendiz)
+                documento =  modificar_template(datos)
+                pdf = covertir_a_pdf(documento)
                 if documento:
-                    cls.registrarArchivoLlamado(documento, caso.id_CasoAprendiz)
-                    print("ARCHIVO CREADO CON EXITO")
+                    return (pdf)
                 else: 
                     print("Se presentó un error")
-                conexion.commit()
+                    return None
         except Exception as ex:
             raise ex
-    
+        
     @classmethod
     def consultar_llamado_por_id(self, id):
         try:
@@ -101,6 +103,24 @@ class LlamadosService():
                         firma_Instructor= llamado[12],
                         firma_Aprendiz= llamado[13],
                         firma_Vocero= llamado[14]
+                    )
+                else:
+                    return None
+        except Exception as ex:
+            raise ex
+
+    @classmethod
+    def consultar_llamado_para_cargar(self, id):
+        try:
+            conexion = get_connection()
+            with conexion.cursor() as cursor:
+                sql = "SELECT al.llamado_Atencion, al.fecha_Creacion FROM archivosllamadosatencion al INNER JOIN llamadoatencion ON id_LlamadoAtencionFK = %s"
+                cursor.execute(sql, (id,))
+                llamado = cursor.fetchone()
+                if llamado != None:
+                    return ArchivosLlamadosAtencion(
+                        llamado_Atencion= llamado[0],
+                        id_LlamadoAtencionFK = llamado[1] 
                     )
                 else:
                     return None
@@ -135,21 +155,69 @@ class LlamadosService():
                 )
                 cursor.execute(sql, datos)
                 conexion.commit()
-                return True
+                documento =  modificar_template(datos)
+                pdf = covertir_a_pdf(documento)
+                if documento:
+                    return (pdf)
+                else: 
+                    print("Se presentó un error")
+                    return None
         except Exception as ex:
             raise ex
     @classmethod
-    def registrarArchivoLlamado(self, documento, id_CasoAprendiz):
+    def registrarArchivoLlamado(cls, documento, id_Caso):
         try:
+            if documento is not None:
+                with open(documento, 'rb') as archivo:
+                    documento_content = archivo.read()
+            else:
+                print("El documento es None.")
+                return False  
+            
+            print("Contenido del documento:", documento_content)
+
             conexion = get_connection()
+
             with conexion.cursor() as cursor:
-                sql = """INSERT INTO archivosllamadosatencion (llamado_Atencion, id_LlamadoAtencionFK) VALUES (%s, %s)"""
-                datos = (
-                    documento,
-                    2
-                )
-                cursor.execute(sql, datos)
+                sql_select = """SELECT * FROM llamadoatencion WHERE id_CasoAprendizFK = %s"""
+                cursor.execute(sql_select, (id_Caso,))
+                resultado = cursor.fetchall()
+                conexion
+                if not resultado:
+                    print("No se encontraron resultados para el id_Caso:", id_Caso)
+                    return False
+                
+                llamado_atencion_id = resultado[-1][0]
+
+                sql_insert = """INSERT INTO archivosllamadosatencion (llamado_Atencion, id_LlamadoAtencionFK) VALUES (%s, %s)"""
+                cursor.execute(sql_insert, (documento_content, llamado_atencion_id))
+                conexion.commit()
+
+                print("Inserción exitosa.")
+                return True
+        except Exception as ex:
+            print(f"Error durante la inserción: {type(ex).__name__} - {str(ex)}")
+            raise ex
+    @celery.task
+    @classmethod
+    def actualizar_archivo_llamado(cls, documento, id_LlamadoFK):
+        try:
+            if documento is not None:
+                with open(documento, 'rb') as archivo:
+                    documento_content = archivo.read()
+            else:
+                print("El documento es None.")
+                return False  
+            
+            print("Contenido del documento:", documento_content)
+
+            conexion = get_connection()
+
+            with conexion.cursor() as cursor:
+                sql_insert = """UPDATE archivosllamadosatencion SET llamado_Atencion = %s WHERE id_LlamadoAtencionFK = %s"""
+                cursor.execute(sql_insert, (documento_content, id_LlamadoFK))
                 conexion.commit()
                 return True
         except Exception as ex:
+            print(f"Error durante la inserción: {type(ex).__name__} - {str(ex)}")
             raise ex

@@ -1,6 +1,9 @@
-
+from docx2pdf import convert
+import tempfile
+import pythoncom
 from src.models.Llamado import Llamado
 from src.services.CasosAprendizService import CasosAprendizService
+from src.uploads.ModificarArchivos import covertir_a_pdf
 from ..services.LlamadosService import LlamadosService
 from ..models.Forms import  *
 from io import BytesIO
@@ -14,26 +17,38 @@ from ..routes.wrappers.wrappers import decorador_rol_usuario, decorador_estado_u
 from ..helpers.helpers import generate_password_and_user
 
 
+
+
 #Blueprint para categorizar las rutas del usuario 
 calls= Blueprint('calls_blueprint', __name__)
 
 @calls.route("/registrarLlamado", methods=["GET"])
+@login_required
+@decorador_estado_usuario()
 def vistaRegistrarLlamado():
     consultarCasos = CasosAprendizService.consultarCasosAprendiz()
     return render_template("visualizarParaLlamado.html", casos = consultarCasos)
 @calls.route("/visualizarLlamados")
+@login_required
+@decorador_estado_usuario()
 def visualizarLlamados():
     llamados = LlamadosService.consultarLlamados()
     return render_template("visualizarLlamados.html", llamados = llamados)
 
 @calls.route("/visualizarLlamado/<int:id>")
+@login_required
+@decorador_estado_usuario()
 def visualizarLlamado(id):
-    llamado = LlamadosService.consultar_llamado_por_id(id)
-    plan_Mejora_base64 = base64.b64encode(llamado.plan_Mejora).decode('utf-8')
-    llamado.plan_Mejora = 'data:application/pdf;base64,' + plan_Mejora_base64
-    return render_template("visualizarLlamado.html", llamado = llamado)
+    llamado = LlamadosService.consultar_llamado_para_cargar(id)
+    plan_Mejora_base64 = base64.b64encode(llamado.llamado_Atencion).decode('utf-8')
+    llamado.llamado_Atencion = 'data:application/pdf;base64,' + plan_Mejora_base64
+    
+    # Mostrar la plantilla
+    return render_template("visualizarLlamado.html", llamado=llamado)
 
 @calls.route("/modificarLlamado/<int:id>", methods=["POST","GET"])
+@login_required
+@decorador_estado_usuario()
 def modificarLlamado(id):
     formActualizar = FormularioRegistrarLlamado()
     modificarLamado = LlamadosService.consultar_llamado_por_id(id)
@@ -56,7 +71,8 @@ def modificarLlamado(id):
             firma_Aprendiz = formActualizar.firma_Aprendiz.data.read(),
             firma_Vocero = formActualizar.firma_Vocero.data.read()
             )
-            LlamadosService.actualizar_llamado(llamadoObj)
+            documento_a_registrar = LlamadosService.actualizar_llamado(llamadoObj)
+            LlamadosService.actualizar_archivo_llamado.delay(documento_a_registrar, id)
             return redirect(url_for("calls_blueprint.visualizarLlamados"))
     else:     
         formActualizar.id_LlamadoAtencion = id
@@ -75,6 +91,8 @@ def modificarLlamado(id):
 
 
 @calls.route("/registrarLlamado/caso/<int:id>", methods=["POST","GET"])
+@login_required
+@decorador_estado_usuario()
 def registrarLlamadoPorCaso(id):
     try:
         formRegistrar = FormularioRegistrarLlamado()
@@ -98,7 +116,8 @@ def registrarLlamadoPorCaso(id):
                 firma_Aprendiz = formRegistrar.firma_Aprendiz.data.read(),
                 firma_Vocero = formRegistrar.firma_Vocero.data.read()
                 )
-                LlamadosService.registrar_llamado(llamadoObj, caso, current_user)
+                documento_a_registrar = LlamadosService.registrar_llamado(llamadoObj, caso, current_user)
+                LlamadosService.registrarArchivoLlamado(documento_a_registrar, id)
                 return redirect(url_for("calls_blueprint.visualizarLlamados"))
         else:     
             formRegistrar.id_CasoAprendiz = id
@@ -107,8 +126,7 @@ def registrarLlamadoPorCaso(id):
             formRegistrar.nombre_Instructor.data = current_user.nombre_Usuario
             formRegistrar.correo_Aprendiz.data = caso.correo_Aprendiz
             
-    except AttributeError as e:
-        flash("Caso inexistente. No se puede realizar llamados de atención a un aprendiz que no tiene un caso", "error_llave_foranea")
-        return redirect(url_for("calls_blueprint.vistaRegistrarLlamado")) 
+    except Exception as e:
+        raise e
     
     return render_template("registrarLlamado.html", formRegistrar = formRegistrar) 

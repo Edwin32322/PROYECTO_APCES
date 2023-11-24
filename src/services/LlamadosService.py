@@ -66,7 +66,9 @@ class LlamadosService():
                 ]
                 cursor.execute(sql, datos)
                 datos.append(caso.programa_Formacion)
-                if modificar_template(datos):
+                documento =  modificar_template(datos, caso.id_CasoAprendiz)
+                if documento:
+                    cls.registrarArchivoLlamado(documento, caso.id_CasoAprendiz)
                     print("ARCHIVO CREADO CON EXITO")
                 else: 
                     print("Se presentó un error")
@@ -130,6 +132,21 @@ class LlamadosService():
                     llamado.firma_Aprendiz,
                     llamado.firma_Vocero,
                     llamado.id_LlamadoAtencion
+                )
+                cursor.execute(sql, datos)
+                conexion.commit()
+                return True
+        except Exception as ex:
+            raise ex
+    @classmethod
+    def registrarArchivoLlamado(self, documento, id_CasoAprendiz):
+        try:
+            conexion = get_connection()
+            with conexion.cursor() as cursor:
+                sql = """INSERT INTO archivosllamadosatencion (llamado_Atencion, id_LlamadoAtencionFK) VALUES (%s, %s)"""
+                datos = (
+                    documento,
+                    2
                 )
                 cursor.execute(sql, datos)
                 conexion.commit()

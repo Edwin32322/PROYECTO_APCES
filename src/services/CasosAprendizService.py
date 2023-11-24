@@ -3,7 +3,6 @@ from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
 from ..models.Casos import casosAprendiz 
 from ..uploads.ModificarArchivos import modificar_template
-
 class CasosAprendizService():
 
     @classmethod
@@ -110,9 +109,11 @@ class CasosAprendizService():
                 cursor.execute(sql, datos)
                 resultado = cursor.fetchone()
                     
-                if resultado[0] == caso.id_CasoAprendiz:
+                if resultado is None:
                     return False
                 else:
+                    if resultado[0] == caso.id_CasoAprendiz:
+                        return False
                     return True
                 
         except Exception as ex:

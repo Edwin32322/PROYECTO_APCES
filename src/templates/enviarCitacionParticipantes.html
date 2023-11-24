@@ -3,6 +3,7 @@
 {% else %}
 {% extends 'layoutInstructor.html'%}
 {% endif %}
+
 {% block title %}Crear caso aprendiz{% endblock %}
 {% block CustomCSS %}
 <link rel="stylesheet" href='{{url_for("static", filename = "css/estilosFormularios.css")}}'>
@@ -23,9 +24,9 @@
   </div>
   {% endif%}
   
-  <form action="/citacion/aprendiz/enviarCitacionAprendiz" method="post" class="form" novalidate>
+  <form action="/citacion/participantes/enviarCitacionParticipantes" method="post" class="form" novalidate>
     <div class="encabezado">
-      <h2>Enviar Citación Aprendiz</h2>
+      <h2>Enviar Citación Participantes</h2>
     </div>
     <div class="bloque">
       <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
@@ -33,9 +34,9 @@
         <div class="form-group">
           <div class="campos">
             <div class="label-contenedor"><label for="">Correo</label></div>
-            <div class="input-contenedor">{{ formEnviarCitacion.correo_Aprendiz(class='form-control', id='correo_Aprendiz', placeholder='example@sena.edu.co') }}</div>
-          </div>
-          {% for i in formEnviarCitacion.correo_Aprendiz.errors %}
+            <div class="input-contenedor">{{ formEnviarCitacionParticipantes.correo_Participantes(class='form-control', id='correo_Aprendiz', placeholder='example@sena.edu.co')}}</div>
+          </div> 
+          {% for i in formEnviarCitacionParticipantes.correo_Participantes.errors %}
           <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
           {% endfor %}
         </div>
@@ -44,18 +45,18 @@
         <div class="form-group">
             <div class="campos">
               <div class="label-contenedor"><label for="">Fecha</label></div>
-              <div class="input-contenedor">{{ formEnviarCitacion.fecha(class='form-control', id='num_Ficha')}}</div>
+              <div class="input-contenedor">{{ formEnviarCitacionParticipantes.fecha(class='form-control', id='num_Ficha')}}</div>
             </div>
-            {% for i in formEnviarCitacion.fecha.errors %}
+            {% for i in formEnviarCitacionParticipantes.fecha.errors %}
             <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
             {% endfor %}
           </div>
         <div class="form-group">
             <div class="campos">
               <div class="label-contenedor"><label for="">Asunto</label></div>
-              <div class="input-contenedor">{{ formEnviarCitacion.asunto(class='form-control', id='nombre_Aprendiz')}}</div>
+              <div class="input-contenedor">{{ formEnviarCitacionParticipantes.asunto(class='form-control', id='nombre_Aprendiz')}}</div>
             </div>
-            {% for i in formEnviarCitacion.asunto.errors %}
+            {% for i in formEnviarCitacionParticipantes.asunto.errors %}
             <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
             {% endfor %}
           </div>
@@ -64,25 +65,16 @@
         <div class="form-group">
             <div class="campos">
                 <div class="label-contenedor"><label for="">Descripción</label></div>
-                <div class="input-contenedor">{{ formEnviarCitacion.descripcion(class='form-control', id='nombre_Usuario')}}</div>
+                <div class="input-contenedor">{{ formEnviarCitacionParticipantes.descripcion(class='form-control', id='nombre_Usuario')}}</div>
             </div>
-            {% for i in formEnviarCitacion.descripcion.errors %}
-            <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
-            {% endfor %}
-        </div>
-        <div class="form-group">
-            <div class="campos">
-                <div class="label-contenedor"><label for="">Llamado</label></div>
-                <div class="input-contenedor">{{ formEnviarCitacion.llamado(class='form-control', id='nombre_Usuario')}}</div>
-            </div>
-            {% for i in formEnviarCitacion.llamado.errors %}
+            {% for i in formEnviarCitacionParticipantes.descripcion.errors %}
             <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
             {% endfor %}
         </div>
     </div>
     </div>
-      <div class="form-group button">{{ formEnviarCitacion.submit(class='btn btn-success')}}</div>
-      {{ formEnviarCitacion.hidden_tag()}}
+      <div class="form-group button">{{ formEnviarCitacionParticipantes.submit(class='btn btn-success')}}</div>
+      {{ formEnviarCitacionParticipantes.hidden_tag()}}
     </form>
   </div>
   {% endblock %}

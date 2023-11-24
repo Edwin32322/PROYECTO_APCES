@@ -2,7 +2,7 @@
 #Validación de formularios por medio de Flask-WTF
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField,EmailField,IntegerField, SelectField, FileField, DateField, PasswordField
+from wtforms import StringField, validators, SubmitField,EmailField,IntegerField, SelectField, FileField, DateTimeLocalField,DateField, PasswordField
 
 from wtforms.validators import DataRequired, Email, NumberRange, ValidationError
 from flask_wtf.file import FileAllowed, FileRequired
@@ -187,4 +187,46 @@ class FormularioSolicitarCitacion(FlaskForm):
         FileRequired("Debe haber un archivo cargado")
     ])
 
+    submit = SubmitField('Enviar')
+
+
+class FormularioEnviarCitacion(FlaskForm):
+    correo_Aprendiz = EmailField("correo_Aprendiz", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    llamados = FileField("llamados", validators=[
+        DataRequired("El campo es requerido"),
+        FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
+        FileRequired("Debe haber un archivo cargado")
+    ])
+    fecha = DateTimeLocalField(validators=[
+        DataRequired(message="El campo es obligatorio")
+    ])
+    asunto = StringField("nombre_Aprendiz", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    descripcion=  StringField("nombre_Aprendiz", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    llamado = FileField("llamado", validators=[
+        DataRequired("El campo es requerido"),
+        FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
+        FileRequired("Debe haber un archivo cargado")
+    ])
+    submit = SubmitField('Enviar')
+
+class FormularioEnviarCitacionParticipantes(FlaskForm):
+    correo_Participantes = EmailField("correo_Aprendiz", validators=[
+        DataRequired("El campo es requerido"),
+        Email(message="El correo no es correcto")
+    ])
+    fecha = DateTimeLocalField(validators=[
+        DataRequired(message="El campo es obligatorio")
+    ])
+    asunto = StringField("asunto", validators=[
+        DataRequired("El campo es requerido")
+    ])
+    descripcion=  StringField("descripcion", validators=[
+        DataRequired("El campo es requerido")
+    ])
     submit = SubmitField('Enviar')

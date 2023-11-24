@@ -35,3 +35,19 @@ def solicitudCita():
 def visualizarSolicitudes():
     llamados = LlamadosService.consultarLlamados()
     return render_template("visualizarLlamados.html", llamados = llamados)
+
+@citacion.route("/aprendiz/enviarCitacionAprendiz", methods=["POST", "GET"])
+def enviarCitacion():
+    formCitacion = FormularioEnviarCitacion()
+    if formCitacion.validate_on_submit():
+        return "Formulario valido"
+    return render_template("enviarCitacionAprendiz.html", formEnviarCitacion = formCitacion)
+
+
+@citacion.route("/participantes/enviarCitacionParticipantes", methods=["POST", "GET"])
+def enviarCitacionParticipantesComite():
+    formCitacionParticipantes = FormularioEnviarCitacionParticipantes()
+    if formCitacionParticipantes.validate_on_submit():
+        return "Formulario valido"
+    return render_template("enviarCitacionParticipantes.html", formEnviarCitacionParticipantes = formCitacionParticipantes)
+

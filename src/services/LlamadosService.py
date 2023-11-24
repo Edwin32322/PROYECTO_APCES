@@ -1,6 +1,5 @@
 
 #Importamos la conexión a BD
-import celery
 from src.models.Archivos import ArchivosLlamadosAtencion
 from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
@@ -198,7 +197,6 @@ class LlamadosService():
         except Exception as ex:
             print(f"Error durante la inserción: {type(ex).__name__} - {str(ex)}")
             raise ex
-    @celery.task
     @classmethod
     def actualizar_archivo_llamado(cls, documento, id_LlamadoFK):
         try:

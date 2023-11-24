@@ -42,9 +42,9 @@ def modificar_template(datos):
         img_VoceroByt = BytesIO(img_Vocero)
 
         # Crear objetos InlineImage
-        imgAprendizCar = InlineImage(doc, img_AprendizByt, width=Mm(50), height=Mm(15))
-        imgInstructorCar = InlineImage(doc, img_InstructorByt, width=Mm(50), height=Mm(15))
-        imgVoceroCar = InlineImage(doc, img_VoceroByt, width=Mm(50), height=Mm(15) )
+        imgAprendizCar = InlineImage(doc, img_AprendizByt, width=Mm(50), height=Mm(30))
+        imgInstructorCar = InlineImage(doc, img_InstructorByt, width=Mm(50), height=Mm(30))
+        imgVoceroCar = InlineImage(doc, img_VoceroByt, width=Mm(50), height=Mm(30) )
 
         # Agregar datos al contexto
         context = {

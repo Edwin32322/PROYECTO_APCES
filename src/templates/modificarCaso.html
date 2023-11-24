@@ -1,4 +1,8 @@
-{% extends 'layoutInstructor.html' %}
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
 
 {% block title %}Crear caso aprendiz{% endblock %}
 {% block CustomCSS %}

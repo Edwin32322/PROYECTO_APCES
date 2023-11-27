@@ -182,11 +182,6 @@ class FormularioSolicitarCitacion(FlaskForm):
         DataRequired("El campo es requerido"),
         Email(message="El correo no es correcto")
     ])
-    llamados = FileField("llamados", validators=[
-        DataRequired("El campo es requerido"),
-        FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
-        FileRequired("Debe haber un archivo cargado")
-    ])
 
     submit = SubmitField('Enviar')
 
@@ -209,11 +204,7 @@ def validar_elecciones_de_citacion(form, field):
         raise validators.ValidationError('Selecciona una opción válida.')
 
 class FormularioEnviarCitacion(FlaskForm):
-    aprendizez = CitacionesService.consultarAprendizParaCitacion()
-    array = [((None,"Seleccione un aprendiz"))]
-    for aprendiz in aprendizez:
-        array.append((aprendiz[1], aprendiz[6]))
-    aprendiz = SelectField('tipoDoc_Usuario', choices= array, validators=[
+    aprendiz = SelectField('tipoDoc_Usuario', choices= [], validators=[
         DataRequired(),
         validar_elecciones_de_aprendiz
     ])

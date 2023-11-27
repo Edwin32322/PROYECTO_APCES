@@ -2,6 +2,7 @@
 from datetime import timedelta
 
 from src.models.Citacion import Citacion
+from src.services.CasosAprendizService import CasosAprendizService
 from ..database.db_mysql import get_connection
 from ..helpers.helpers import generate_password
 from ..models.Casos import casosAprendiz 
@@ -42,19 +43,13 @@ class CitacionesService():
         try:
             conexion = get_connection()
             with conexion.cursor() as cursor:
-                sql = """INSERT INTO soliictarCitacion (num_Ficha, nombre_Aprendiz, correo_Aprendiz, llamados) VALUES (%s, %s, %s, %s)"""
+                sql = """INSERT INTO solicitudcitacion (nombre_Aprendiz, correo_Aprendiz,id_CasoAprendizFK) VALUES (%s, %s, %s)"""
                 datos = (
-                    solicitud.num_Ficha,
                     solicitud.nombre_Aprendiz,
                     solicitud.correo_Aprendiz,
-                    solicitud.llamados
-    
+                    solicitud.id_CasoAprendizFK
                 )
                 cursor.execute(sql, datos)
-                if modificar_template(datos):
-                    print("ARCHIVO CREADO CON EXITO")
-                else: 
-                    print("Se presentó un error")
                 conexion.commit()
         except Exception as ex:
             raise ex
@@ -70,6 +65,22 @@ class CitacionesService():
 
                 if aprendicez:
                     return aprendicez
+                else: 
+                    None
+        except Exception as ex:
+            raise ex
+    
+    @classmethod
+    def consultar_solicitudes(self):
+        try:
+            conexion = get_connection()
+            with conexion.cursor() as cursor:
+                sql = """SELECT * FROM solicitudcitacion;"""
+                cursor.execute(sql)
+                solicitudes = cursor.fetchall()
+
+                if solicitudes:
+                    return solicitudes
                 else: 
                     None
         except Exception as ex:

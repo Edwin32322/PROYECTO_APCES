@@ -21,20 +21,17 @@
     </div>
     <div class="lista">
         <ul class="">
-            {% if casos %}
-            {% for caso in casos %}
-                <li data-name="{{caso.nombre_Aprendiz}}">
-                <a href="visualizarCaso/{{ caso.id_CasoAprendiz }}">
+            {% if solicitudes %}
+            {% for solicitud in solicitudes %}
+                <li data-name="{{solicitud.nombre_Aprendiz}}">
+                <a href="visualizarsolicitud/{{ solicitud.id_solicitudAprendiz }}">
                     <div class="contenedor_imagen">
                         <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
                     </div>
                     <div class="contenedor_texto">
-                        <span>Aprendiz: {{ caso.nombre_Aprendiz }}</span>
+                        <span>Aprendiz: {{ solicitud[1]}}</span>
                     </div>
                 </a>
-                <div>
-                <a href="/casos/modificarCaso/{{caso.id_CasoAprendiz}}">Modificar Caso</a>
-                </div>
             </li>
             {% endfor %}
             {% else %}
@@ -45,5 +42,5 @@
 </div>
 {% endblock %}
 {% block CustomJs %}
-<script src="{{url_for('static', filename='js/cambiarFiltroCaso.js')}}"></script>
+<script src="{{url_for('static', filename='js/cambiarFiltrosolicitud.js')}}"></script>
 {% endblock %}

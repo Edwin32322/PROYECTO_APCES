@@ -16,32 +16,41 @@ from ..routes.wrappers.wrappers import decorador_rol_usuario, decorador_estado_u
 #Blueprint para categorizar las rutas del usuario 
 citacion = Blueprint('citacion_blueprint', __name__)
 
-@citacion.route("/solicitarCitacion", methods=["POST", "GET"])
+@citacion.route("/solicitarCitacion/<int:id>", methods=["POST", "GET"])
 @login_required
-@decorador_rol_usuario("Instructor")
-def solicitudCita():
+def solicitudCita(id):
     formSolicitarCita = FormularioSolicitarCitacion()
+    aprendiz = CasosAprendizService.consultar_caso_por_id(id)
+    if aprendiz:
+        formSolicitarCita.id = id
+        formSolicitarCita.correo_Aprendiz.data = aprendiz.correo_Aprendiz
+        formSolicitarCita.num_Ficha.data = aprendiz.num_Ficha
+        formSolicitarCita.nombre_Aprendiz.data = aprendiz.nombre_Aprendiz
     if formSolicitarCita.validate_on_submit() and request.method == "POST":
         solicitar = solicitarCitacion(
-            None,
             num_Ficha = request.form["num_Ficha"],
             nombre_Aprendiz = request.form["nombre_Aprendiz"],
             correo_Aprendiz = request.form["correo_Aprendiz"],
-            llamados = request.files["llamados"].read(), 
+            id_CasoAprendizFK = id
         )
         
         CitacionesService.solicitar_citacion(solicitar)
-        
-        return "Hola"
+        return redirect(url_for("citaciones_blueprint.visualizarSolicitudes"))
 
     return render_template("solicitarCitacion.html", formSolicitarCita = formSolicitarCita)
 
+@citacion.route("/visualizarAprendicez", methods=["POST", "GET"])
+@login_required
+def visualizarAprendicezParaCitar():
+    citarAprendicez = CitacionesService.consultarAprendizParaCitacion()
+    return render_template("visualizarAprendicezParaSolicitar.html", citaciones = citarAprendicez)
+
+
 @citacion.route("/visualizarSolicitudes", methods=["POST", "GET"])
 @login_required
-@decorador_rol_usuario("Administrador")
 def visualizarSolicitudes():
-    llamados = LlamadosService.consultarLlamados()
-    return render_template("visualizarLlamados.html", llamados = llamados)
+    solicitudes = CitacionesService.consultar_solicitudes()
+    return render_template("visualizarSolicitudes.html", solicitudes = solicitudes)
 
 @citacion.route("/aprendiz/enviarCitacionAprendiz", methods=["POST", "GET"])
 @login_required
@@ -49,6 +58,7 @@ def visualizarSolicitudes():
 def enviarCitacion():
     formCitacion = FormularioEnviarCitacion()
     formCitacion.citacion_Aprendiz.choices = rellenar_choices_campo_citaciones()
+    formCitacion.aprendiz.choices = rellenar_choices_campo_aprendicez()
     if formCitacion.validate_on_submit():
         print("hola")
         print(formCitacion.aprendiz.data)
@@ -56,6 +66,15 @@ def enviarCitacion():
         return f"{hora_formateada}"
     return render_template("enviarCitacionAprendiz.html", formEnviarCitacion = formCitacion)
 
+
+
+def rellenar_choices_campo_aprendicez():
+    aprendicez = CitacionesService.consultarAprendizParaCitacion()
+    array = [((None,"Seleccione un aprendiz"))]
+    if aprendicez:
+        for aprendiz in aprendicez:
+            array.append((aprendiz[1], aprendiz[6]))
+    return array
 
 def rellenar_choices_campo_citaciones():
     citaciones = CitacionesService.consultar_citaciones_registradas()

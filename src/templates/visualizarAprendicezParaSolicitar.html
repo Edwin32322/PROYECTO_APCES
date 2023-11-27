@@ -1,0 +1,55 @@
+
+
+{% if current_user.id_Rol_FK == 1 %}
+{% extends 'layoutAdmin.html'%}
+{% else %}
+{% extends 'layoutInstructor.html'%}
+{% endif %}
+
+
+{% block title %}Visualizar Usuarios{% endblock %}
+
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/visualizarUsuarios.css')}}">
+{% endblock %}
+
+{% block body %}
+<div class="lista_contenidos">
+    <div class="filtro">
+        <div class="filtrar">
+            <label for="rol_usuario">Nombre del aprendiz</label>
+            <input type="text" class="form-control" id="filtrarAprendiz">
+        </div>
+        <div class="filtrar">
+            <label for="rol_usuario">Fecha</label>
+            <input type="date" class="form-control" id="filtrarFecha">
+        </div>
+    </div>
+    <div class="lista">
+        <ul class="">
+            {% if citaciones %}
+            {% for citacion in citaciones %}
+                <li data-id="{{citacion[0]}}">
+                <a href="#">
+                    <div class="contenedor_imagen">
+                        <img src="{{ url_for('static', filename='img/llamados.png') }}" alt="Visualizar">
+                    </div>
+                    <div class="contenedor_texto">
+                        <span>Aprendiz: {{ citacion[6] }} |  Ficha: {{ citacion[4]}} </span>
+                    </div>
+                </a>
+                <div>
+                <a href="/citacion/solicitarCitacion/{{citacion[1]}}">Solicitar Citacion</a>
+                </div>
+            </li>
+            {% endfor %}
+            {% else %}
+            <p>No hay citaciones realizados.</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+{% block CustomJs %}
+<script src="{{url_for('static', filename='js/cambiarFiltroLlamado.js')}}"></script>
+{% endblock %}

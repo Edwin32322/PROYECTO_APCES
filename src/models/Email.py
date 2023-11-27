@@ -3,7 +3,6 @@ import ssl
 from pathlib import Path
 from flask import current_app
 
-from src.uploads.ModificarArchivos import leer_pdf
 from ..services.AuthService import AuthService
 import smtplib
 from decouple import config
@@ -153,8 +152,12 @@ class Email:
             <html>
                 <body>
                     <p><strong>Hola,</strong></p>
-                    <p>El siguiente correo es para informarle de la citación del comíte de evaluación y seguimiento que se desarrollará</p>
+                    <p>El siguiente correo es para informarle de la citación del comíte de evaluación y seguimiento que se desarrollará en:</p>
                     <ul>
+                        <li>Fecha: {citacion.fecha_Citacion}</li>
+                        <li>Hora: {citacion.hora_Citacion}</li>
+                        <li>Centro de formación: Calle 52</li>
+                        Por favor, asistir.
                         **********************NO RESPONDER - Mensaje Generado Automáticamente**********************
                         Este correo es únicamente informativo y es de uso exclusivo del destinatario(a), puede contener información privilegiada y/o confidencial. Si no es usted el destinatario(a) deberá borrarlo inmediatamente. 
                         Queda notificado que el mal uso, divulgación no autorizada, alteración y/o  modificación malintencionada sobre este mensaje y sus anexos quedan estrictamente prohibidos y pueden ser legalmente sancionados.

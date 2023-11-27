@@ -3,7 +3,7 @@
     width: auto;
 }
 
-.formulario > form > .encabezado > h2 {
+.encabezado > h2 {
     color: #385B56;
     font-weight: 500;
 }
@@ -48,7 +48,6 @@
 }
 
 .formulario > form > .bloque > div > .form-group > .campos > .label-contenedor {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

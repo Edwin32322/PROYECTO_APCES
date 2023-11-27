@@ -161,4 +161,16 @@ class UserService():
                 return True
             else:
                 return False
+    @classmethod
+    def checkear_doc_en_bd(self, user):
+        conexion = get_connection()
+        with conexion.cursor() as cursor:
+            sql = 'SELECT * FROM Usuario WHERE numero_Documento_Usuario= "{}"'.format(user.numero_Documento_Usuario)
+            cursor.execute(sql)
+            row = cursor.fetchone()
+            if row is None:
+                return True
+            else:
+                return False
         
+

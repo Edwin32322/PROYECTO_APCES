@@ -1,6 +1,9 @@
 from email.message import EmailMessage
 import ssl
+from pathlib import Path
 from flask import current_app
+
+from src.uploads.ModificarArchivos import leer_pdf
 from ..services.AuthService import AuthService
 import smtplib
 from decouple import config
@@ -94,5 +97,86 @@ class Email:
                 smtp.sendmail(self.email_emisor, email_receptor, em.as_string())
                 return True
                 
+        except Exception as ex:
+            raise ex
+        
+    def enviar_plan_mejora_e_info_llamado(self,llamadoObj):
+        em = EmailMessage()
+        asunto = "LLAMADO DE ATENCIÓN REGISTRADO - APCES"
+
+        cuerpo = f"""
+            <html>
+                <body>
+                    <p><strong>Hola,</strong></p>
+                    <p>El siguiente correo es para informarle que usted ha recibido un llamado de atención y por tanto deberá cumplir con el plan de mejora adjunto</p>
+                    <ul>
+                        <li>Nombre del instructor quien realiza el llamado: {llamadoObj.nombre_Instructor} </li>
+                        <li>Motivo: {llamadoObj.motivo}</li>
+                    </ul>
+                    <p><strong>Debe presentar el plan de mejora al instructor correspondiente</strong></p>
+                        <p>Apces - Sena</p>
+                    <p>
+                        **********************NO RESPONDER - Mensaje Generado Automáticamente**********************
+                        Este correo es únicamente informativo y es de uso exclusivo del destinatario(a), puede contener información privilegiada y/o confidencial. Si no es usted el destinatario(a) deberá borrarlo inmediatamente. 
+                        Queda notificado que el mal uso, divulgación no autorizada, alteración y/o  modificación malintencionada sobre este mensaje y sus anexos quedan estrictamente prohibidos y pueden ser legalmente sancionados.
+                        El SENA  no asume ninguna responsabilidad por estas circunstancias
+                    <p/>
+                </body>
+            </html>
+        """
+        em['From'] = self.email_emisor
+        em['To'] = llamadoObj.correo_Aprendiz
+        em['Subject'] = asunto
+        nombre_adjunto = 'LLamado_Atencion.pdf'
+
+            
+        em.add_alternative(cuerpo, subtype='html')  # Establecer el contenido HTML
+        em.add_attachment(llamadoObj.plan_Mejora, maintype='application', subtype='octet-stream', filename=nombre_adjunto)
+        contexto = ssl.create_default_context()
+
+
+        try:
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=contexto) as smtp:
+                smtp.login(self.email_emisor, self.email_contrasena)
+                smtp.sendmail(self.email_emisor, llamadoObj.correo_Aprendiz, em.as_string())
+                return True
+
+        except Exception as ex:
+            raise ex
+    
+    def enviar_citacion_participantes(self,citacion):
+        citacion.correo_Citacion = citacion.correo_Citacion.split(', ')
+        em = EmailMessage()
+        asunto = "CITACIÓN COMÍTE EVALUACIÓN Y SEGUIMIENTO - PARTICIPANTES"
+
+        cuerpo = f"""
+            <html>
+                <body>
+                    <p><strong>Hola,</strong></p>
+                    <p>El siguiente correo es para informarle de la citación del comíte de evaluación y seguimiento que se desarrollará</p>
+                    <ul>
+                        **********************NO RESPONDER - Mensaje Generado Automáticamente**********************
+                        Este correo es únicamente informativo y es de uso exclusivo del destinatario(a), puede contener información privilegiada y/o confidencial. Si no es usted el destinatario(a) deberá borrarlo inmediatamente. 
+                        Queda notificado que el mal uso, divulgación no autorizada, alteración y/o  modificación malintencionada sobre este mensaje y sus anexos quedan estrictamente prohibidos y pueden ser legalmente sancionados.
+                        El SENA  no asume ninguna responsabilidad por estas circunstancias
+                    <p/>
+                </body>
+            </html>
+        """
+        em['From'] = self.email_emisor
+        em['To'] = citacion.correo_Citacion
+        em['Subject'] = asunto
+            
+        em.add_alternative(cuerpo, subtype='html')  # Establecer el contenido HTML
+
+        contexto = ssl.create_default_context()
+
+
+        try:
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=contexto) as smtp:
+                smtp.login(self.email_emisor, self.email_contrasena)
+                smtp.sendmail(self.email_emisor, citacion.correo_Citacion, em.as_string())
+                return True
+
         except Exception as ex:
             raise ex

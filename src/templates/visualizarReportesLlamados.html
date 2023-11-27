@@ -7,39 +7,42 @@
 {% endif %}
 
 
-{% block title %}Visualizar Usuarios{% endblock %}
+{% block title %}Visualizar Reportes Llamados{% endblock %}
 
 {% block CustomCSS %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/visualizarUsuarios.css')}}">
 {% endblock %}
 
 {% block body %}
+{% with message = get_flashed_messages()[0]%}
+{% if message %}
+<div class="alert alert-danger" role="alert">
+    <span class="row">{{message}}</span>
+  </div>
+{% endif %}
+{% endwith%}
 <div class="lista_contenidos">
     <div class="filtro">
         <div class="filtrar">
             <label for="rol_usuario">Nombre del aprendiz</label>
             <input type="text" class="form-control" id="filtrarAprendiz">
         </div>
-        <div class="filtrar">
-            <label for="rol_usuario">Fecha</label>
-            <input type="date" class="form-control" id="filtrarFecha">
-        </div>
     </div>
     <div class="lista">
         <ul class="">
-            {% if llamados %}
-            {% for llamado in llamados %}
-                <li data-name="{{llamado.nombre_Aprendiz}}" data-date="{{llamado.fecha}}">
-                <a href="visualizarLlamado/{{ llamado.id_LlamadoAtencion }}">
+            {% if casos %}
+            {% for caso in casos %}
+                <li data-name="{{caso.nombre_Aprendiz}}">
+                <a href="visualizarCaso/{{ caso.id_CasoAprendiz }}">
                     <div class="contenedor_imagen">
-                        <img src="{{ url_for('static', filename='img/llamados.png') }}" alt="Visualizar">
+                        <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
                     </div>
                     <div class="contenedor_texto">
-                        <span>{{ llamado.fecha}} |   </span><span>Aprendiz: {{ llamado.nombre_Aprendiz }}
+                        <span>Aprendiz: {{ caso.nombre_Aprendiz }}</span>
                     </div>
                 </a>
                 <div>
-                <a href="/llamados/modificarLlamado/{{llamado.id_LlamadoAtencion}}">Modificar Llamado</a>
+                    <a href="/llamados/registrarLlamado/caso/{{caso.id_CasoAprendiz}}">Registrar Llamado</a>
                 </div>
             </li>
             {% endfor %}
@@ -51,5 +54,5 @@
 </div>
 {% endblock %}
 {% block CustomJs %}
-<script src="{{url_for('static', filename='js/cambiarFiltroLlamado.js')}}"></script>
+<script src="{{url_for('static', filename='js/cambiarFiltroCaso.js')}}"></script>
 {% endblock %}

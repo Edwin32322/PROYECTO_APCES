@@ -9,4 +9,11 @@ from ..routes.wrappers.wrappers import decorador_rol_usuario, decorador_estado_u
 from ..helpers.helpers import generate_password_and_user
 
 #Blueprint para categorizar las rutas del usuario 
-casos= Blueprint('casos_blueprint', __name__)
+actas= Blueprint('acta_blueprint', __name__)
+
+@actas.route("/generarActa", methods=["GET", "POST"])
+def generarActa():
+    formActa = FormularioGenerarActa()
+    if formActa.validate_on_submit():
+        return "valido"
+    return render_template("generarActa.html", formActa = formActa)

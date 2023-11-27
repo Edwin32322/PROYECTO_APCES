@@ -1,0 +1,321 @@
+{% extends 'layoutAdmin.html' %}
+
+{% block title %}Generar Acta{% endblock %}
+{% block CustomCSS %}
+<link rel="stylesheet" href='{{url_for("static", filename = "css/estilosFormularios.css")}}'>
+{% endblock %}
+{% block body %}
+<style>
+    #dynamicList{
+        display: flex;
+        flex-direction: column;
+    }
+    #textPuntos{
+        display: flex;
+        width: 100%;
+    }
+    .form .bloque .encabezado{
+        text-align: center;
+        font-weight: 500;
+        color:#000000;
+    }
+    .campos-dobles.text-area{
+        display: flex;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos > .input-contenedor{
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos > .label-contenedor.text-area{
+        width: 100% ;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos > .label-contenedor > label{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos > .input-contenedor > .campos{
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+    .campos-dobles.text-area > .form-group > .campos > .input-contenedor.text-area  #agregarElemento{
+        width: 100%;
+        margin: 0 auto;
+        background-color: #39A900;
+    }
+    
+    .input-contenedor.checkbox{
+        width: 10% !important;
+    }
+    .label-contenedor.checkbox{
+        width: 60% !important;
+    }
+    .campos-dobles.checkbox{
+        display: flex ;
+        flex-wrap: wrap !important;
+        flex-direction: column;
+    }
+    .label-contenedor.checkbox > label{
+        width: 100% !important;
+    }
+    #checkboxId:focus{
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+    #checkboxId:checked {
+ 
+        background-color: green !important;
+    }
+</style>
+
+<div class="formulario">
+    {% if message_err %}
+    <div class="alert alert-danger" role="alert">
+        {{message_err}}
+    </div>
+    {% endif%}
+    {% if message_exito %}
+    {% endif%}
+    
+    <form id="form" action="/acta/generarActa" enctype="multipart/form-data" method="POST" class="form" novalidate>
+        <div class="encabezado">
+            <h2>Generar Acta</h2>
+        </div>
+        {% with message = get_flashed_messages()%}
+        {% if message %}
+        <div class="alert alert-danger" role="alert">
+            <span class="row">{{message}}</span>
+          </div>
+        {% endif %}
+        {% endwith%}
+        <div class="bloque">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Id Citacion</label></div>
+                        <div class="input-contenedor">{{ formActa.id_Citacion(class='form-control', id='citacion')}}</div>
+                    </div>
+                    {% for i in formActa.fecha.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Fecha</label></div>
+                        <div class="input-contenedor">{{ formActa.fecha(class='form-control', id='fecha')}}</div>
+                    </div>
+                    {% for i in formActa.fecha.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">hora</label></div>
+                        <div class="input-contenedor">{{ formActa.hora(class='form-control', id='hora')}}</div>
+                    </div>
+                    {% for i in formActa.hora.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-largos">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Hora Inicio</label></div>
+                        <div class="input-contenedor">
+                            {{ formActa.hora_Inicio(class='form-control')}}
+                        </div>
+                    </div>
+                    {% for i in formActa.hora_Inicio.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Hora Fin</label></div>
+                        <div class="input-contenedor"> {{ formActa.hora_Fin(class='form-control',id='hora_Fin')}}</div>
+                    </div>
+                    {% for i in formActa.hora_Fin.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label for="">Lugar</label></div>
+                        <div class="input-contenedor">
+                            {{ formActa.lugar(class="form-control", id='lugar', default=request.form['lugar']) }}
+
+                        </div>
+                    </div>
+                    {% for i in formActa.lugar.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Tema de Reunión</label></div>
+                        <div class="input-contenedor">
+                            {{ formActa.tema_Reunion(class='form-control',id='numero_Documento_Usuario')}}
+                        </div>
+                    </div>
+                    {% for i in formActa.tema_Reunion.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Centro</label></div>
+                        <div class="input-contenedor">{{ formActa.centro(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.centro.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles text-area">
+                <div class="form-group">
+                        <div class="campos">
+                            <div class="label-contenedor text-area"><label  for="">Punt.Desarrollar</label></div>
+                            <div class="input-contenedor text-area">
+                                <div class="campos">
+                                    <input type="text" id="inputPunto" class="form-control">
+                                    <button type="button" id="agregarElemento" class="btn btn-success">Agregar Punto</button>
+                                </div>
+                                {{ formActa.puntos_ADesarrollar(class='form-control', id="textPuntos", placeholder = "Ingrese aquí los puntos a desarrollar", default=request.form['puntos_ADesarrollar'])}}</div>
+                        </div>
+                    {% for i in formActa.puntos_ADesarrollar.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Asistentes</label></div>
+                        <div class="input-contenedor">{{ formActa.asistentes(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.asistentes.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Conclusiones</label></div>
+                        <div class="input-contenedor">{{ formActa.conclusiones(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.conclusiones.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="encabezado">
+                <span>Ingresar Datos del Aprendiz</span>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Nombre</label></div>
+                        <div class="input-contenedor">{{ formActa.nombre(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.nombre.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Tipo Documento</label></div>
+                        <div class="input-contenedor file">{{ formActa.tipo_Documento(class='form-select') }}</div>
+                    </div>
+                    {% for i in formActa.tipo_Documento.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Num.Doc</label></div>
+                        <div class="input-contenedor file">{{ formActa.num_Documento(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.num_Documento.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles">
+                <div class="form-group">
+                    <div class="campos">
+                        <div class="label-contenedor"><label  for="">Correo</label></div>
+                        <div class="input-contenedor file">{{ formActa.correo_Aprendiz(class='form-control') }}</div>
+                    </div>
+                    {% for i in formActa.correo_Aprendiz.errors %}
+                    <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="campos-dobles checkbox">
+                <div class="form-check">
+                    {{ formActa.checkbox(class='form-check-input', id='checkboxId') }}
+                    <label class="form-check-label" for="checkboxId">
+                        ¿Desea enviarle al aprendiz el formato de descargos?
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group button">{{ formActa.submit(class='btn btn-success')}}</div>
+        {{ formActa.hidden_tag()}}
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+                var formulario = document.getElementById('form');
+        
+                formulario.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                    }
+                });
+
+        var contador = 1;
+        var listaHtml = $("#textPuntos");
+        var input = $("#inputPunto");
+        var lista = [];
+    
+        // Crear un nuevo elemento de entrada
+        $("#agregarElemento").on("click", function() {
+            if (input.val() === "") {
+                alert("No se aceptan puntos vacíos");
+                return;
+            } else {
+                elemento = `${contador}. ${input.val()}`;
+                lista.push(elemento);
+                var listaTexto = lista.join(",\n");
+                $("#textPuntos").val(listaTexto);
+                contador++;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label for="">Nombre Aprendiz</label></div>
-                        <div class="input-contenedor">{{ formRegistrar.nombre_Aprendiz(class='form-control', id='nombre_Usuario')}}</div>
+                        <div class="input-contenedor">{{ formRegistrar.nombre_Aprendiz(class='form-control' ,id='nombre_Usuario',  readonly = readonly)}}</div>
                     </div>
                     {% for i in formRegistrar.nombre_Aprendiz.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
@@ -151,7 +151,7 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Plan de Mejora</label></div>
-                        <div class="input-contenedor file">{{ formRegistrar.plan_Mejora(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.plan_Mejora(class='form-control') }}</div>
                     </div>
                     {% for i in formRegistrar.plan_Mejora.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
@@ -160,7 +160,7 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Instructor</label></div>
-                        <div class="input-contenedor file">{{ formRegistrar.firma_Instructor(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Instructor(class='form-control') }}</div>
                     </div>
                     {% for i in formRegistrar.firma_Instructor.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
@@ -171,7 +171,7 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Aprendiz</label></div>
-                        <div class="input-contenedor file">{{ formRegistrar.firma_Aprendiz(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Aprendiz(class='form-control', default=request.form['firma_Aprendiz']) }}</div>
                     </div>
                     {% for i in formRegistrar.firma_Aprendiz.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
@@ -180,7 +180,7 @@
                 <div class="form-group">
                     <div class="campos">
                         <div class="label-contenedor"><label  for="">Firma Vocero</label></div>
-                        <div class="input-contenedor file">{{ formRegistrar.firma_Vocero(class='input-file') }}</div>
+                        <div class="input-contenedor file">{{ formRegistrar.firma_Vocero(class='form-control') }}</div>
                     </div>
                     {% for i in formRegistrar.firma_Vocero.errors %}
                     <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>

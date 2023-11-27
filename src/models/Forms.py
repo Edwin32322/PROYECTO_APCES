@@ -1,12 +1,12 @@
 
 #Validación de formularios por medio de Flask-WTF
-
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField,EmailField,IntegerField, SelectField, FileField, DateTimeLocalField,DateField, PasswordField
-
+from wtforms import StringField, validators, SubmitField ,EmailField,IntegerField, TimeField ,SelectField, FileField,DateField, PasswordField, BooleanField, TextAreaField
+from datetime import datetime
 from wtforms.validators import DataRequired, Email, NumberRange, ValidationError
-from flask_wtf.file import FileAllowed, FileRequired
+from flask_wtf.file import FileSize, FileRequired, FileAllowed
 
+from src.services.CitacionesService import CitacionesService
 def longitud_campo_integer_field(form, field):
     min_length = 5  
     max_length = 15  
@@ -108,13 +108,13 @@ class FormularioRegistrarLlamado(FlaskForm):
         DataRequired(message="El campo es obligatorio")
     ])
     falta = SelectField("falta", choices=[
-        (1, "Grave"), (2, "Moderada"), (3, "Leve")
+        ("Grave", 1), ("Moderada", 2), ("Leve", 3)
     ])
     tipo_Falta = SelectField("falta", choices=[
-        (1, "Grave"), (2, "Moderada"), (3, "Leve")
+        ("Grave", 1), ("Moderada", 2), ("Leve", 3)
     ])
     art_Incumplido = SelectField("falta", choices=[
-        (1, "Grave"), (2, "Moderada"), (3, "Leve")
+        ("Grave", 1), ("Moderada", 2), ("Leve", 3)
     ])
     motivo = StringField("motivo", validators=[
         DataRequired("El campo es requerido")
@@ -122,7 +122,8 @@ class FormularioRegistrarLlamado(FlaskForm):
     plan_Mejora = FileField("plan_Mejora", validators=[
         DataRequired("El campo es requerido"),
         FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
-        FileRequired("Debe haber un archivo cargado")
+        FileRequired("Debe haber un archivo cargado"),
+        FileSize(max_size=38 * 1024 * 1024, message='El tamaño del archivo no debe exceder 38 MB')
     ])
     firma_Instructor = FileField("firma_Instructor", validators=[
         DataRequired("El campo es requerido"),
@@ -189,19 +190,49 @@ class FormularioSolicitarCitacion(FlaskForm):
 
     submit = SubmitField('Enviar')
 
+def validar_elecciones_de_aprendiz(form, field):
+    aprendizez = CitacionesService.consultarAprendizParaCitacion()
+    valid_choices = [str(aprendiz[1]) for aprendiz in aprendizez]
+
+    if field.data not in valid_choices:
+        raise validators.ValidationError('Selecciona una opción válida.')
+    
+    
+    
+
+def validar_elecciones_de_citacion(form, field):
+    citaciones = CitacionesService.consultar_citaciones_registradas()
+    valid_choices = []
+    if citaciones:
+        valid_choices = [str(citacion.id_Citacion) for citacion in citaciones]
+    if field.data not in valid_choices:
+        raise validators.ValidationError('Selecciona una opción válida.')
 
 class FormularioEnviarCitacion(FlaskForm):
+    aprendizez = CitacionesService.consultarAprendizParaCitacion()
+    array = [((None,"Seleccione un aprendiz"))]
+    for aprendiz in aprendizez:
+        array.append((aprendiz[1], aprendiz[6]))
+    aprendiz = SelectField('tipoDoc_Usuario', choices= array, validators=[
+        DataRequired(),
+        validar_elecciones_de_aprendiz
+    ])
+    citacion_Aprendiz = SelectField(
+        choices= [], validators=[
+            DataRequired(),
+            validar_elecciones_de_citacion
+        ]
+    )
     correo_Aprendiz = EmailField("correo_Aprendiz", validators=[
         DataRequired("El campo es requerido")
     ])
-    llamados = FileField("llamados", validators=[
-        DataRequired("El campo es requerido"),
-        FileAllowed(["pdf"], "Solo se admiten extensiones PDF"),
-        FileRequired("Debe haber un archivo cargado")
+    fecha = DateField(validators=[
+        DataRequired("El campo es requerido")
     ])
-    fecha = DateTimeLocalField(validators=[
-        DataRequired(message="El campo es obligatorio")
+    hora = TimeField(validators=[
+        DataRequired()
     ])
+
     asunto = StringField("nombre_Aprendiz", validators=[
         DataRequired("El campo es requerido")
     ])
@@ -216,12 +247,15 @@ class FormularioEnviarCitacion(FlaskForm):
     submit = SubmitField('Enviar')
 
 class FormularioEnviarCitacionParticipantes(FlaskForm):
-    correo_Participantes = EmailField("correo_Aprendiz", validators=[
-        DataRequired("El campo es requerido"),
-        Email(message="El correo no es correcto")
+    añadir_Correos =  StringField("correo_Participante")
+    correo_Participantes = StringField("correos_Participantes", validators=[
+        DataRequired("El campo es requerido")
     ])
-    fecha = DateTimeLocalField(validators=[
+    fecha = DateField(validators=[
         DataRequired(message="El campo es obligatorio")
+    ])
+    hora = TimeField(format="%H:%M",validators=[
+        DataRequired("El campo es obligatorio")
     ])
     asunto = StringField("asunto", validators=[
         DataRequired("El campo es requerido")
@@ -230,3 +264,79 @@ class FormularioEnviarCitacionParticipantes(FlaskForm):
         DataRequired("El campo es requerido")
     ])
     submit = SubmitField('Enviar')
+
+
+
+
+class FormularioGenerarActa(FlaskForm):
+    aprendizez = CitacionesService.consultarAprendizParaCitacion()
+    id_Citacion  = SelectField(
+        DataRequired("El campo es obligatorio")
+    )
+    fecha = DateField(validators=[
+        DataRequired("El campo es requerido")
+    ]
+    )
+    hora = TimeField(validators=[
+        DataRequired("El campo es requerido")
+    ]
+    )
+    hora_Inicio = TimeField(validators=[
+        DataRequired("El campo es requerido")
+    ]
+    )
+    hora_Fin = TimeField(validators=[
+        DataRequired("El campo es requerido")
+    ]
+    )
+    lugar = StringField(validators=[
+        DataRequired()
+    ]
+    )
+    tema_Reunion = StringField(validators=[
+        DataRequired()
+    ]
+    )
+    centro = StringField(validators=[
+        DataRequired()
+    ]
+    )
+    asistentes = IntegerField(validators=[
+        DataRequired(),
+        longitud_campo_integer_field,
+        NumberRange(min=0, message='El campo debe ser un número positivo')
+    ]
+    )
+    puntos_ADesarrollar = TextAreaField(validators=[
+        DataRequired()
+    ]
+    )
+    conclusiones = StringField(validators=[
+        DataRequired()
+    ]
+    )
+    compromisos = TextAreaField(validators=[
+        DataRequired()
+    ]
+    )
+    nombre = StringField(validators=[
+        DataRequired()
+    ]
+    )
+    tipo_Documento = SelectField(choices=[
+        ('Cédula de Ciudadanía'), ('Cédula de extranjería'), ('PEP')
+    ])
+    num_Documento = IntegerField(validators=[
+        DataRequired(),
+        longitud_campo_integer_field
+    ]
+    )
+    correo_Aprendiz = EmailField(validators=[
+        Email("El correo no es correcto"),
+        DataRequired()
+    ]
+    )
+    checkbox = BooleanField(
+        
+    )
+    submit = SubmitField("Enviar")

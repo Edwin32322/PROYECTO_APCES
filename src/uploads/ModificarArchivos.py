@@ -1,9 +1,37 @@
 from io import BytesIO
+import io
 import pythoncom
 from pathlib import Path
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 from docx2pdf import convert  # Importa la función convert de docx2pdf
+
+import base64
+import PyPDF2
+def leer_pdf(documento_binario):
+
+    # Decodificar el contenido binario
+    contenido_decodificado = base64.b64decode(documento_binario)
+    
+    # Crear un objeto PyPDF2
+    pdf_writer = PyPDF2.PdfWriter()
+    
+    # Agregar la página al archivo PDF
+    pdf_writer.addPage(PyPDF2.PdfFileReader(io.BytesIO(contenido_decodificado)).getPage(0))
+    
+    # Crear un archivo temporal para almacenar el PDF convertido
+    pdf_temporal = io.BytesIO()
+    pdf_writer.write(pdf_temporal)
+    
+    # Obtener el contenido del archivo temporal
+    pdf_temporal.seek(0)
+    contenido_pdf_convertido = pdf_temporal.read()
+    return contenido_pdf_convertido
+    
+    # Ahora, `contenido_pdf_convertido` contiene el contenido binario del archivo PDF convertido
+    
+    # Puedes adjuntar `contenido_pdf_convertido` al correo electrónico
+    
 def covertir_a_pdf(temp_docx_path):
     try:
         pythoncom.CoInitialize()

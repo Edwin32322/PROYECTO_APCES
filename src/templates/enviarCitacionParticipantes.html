@@ -11,7 +11,67 @@
 {% block body %}
 
 
-
+<style>
+  .emails-container{
+    display: flex;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+  }
+  .emails-container > p{
+    font-weight: 700;
+  } 
+  #emails-container{
+    padding: 0 20px ;
+    display: grid;
+    width: 100%;
+    gap: 20px;
+  }
+  #emails-container > li{
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    overflow:hidden;
+    padding: 2px 10px;
+    background-color: #EFEFEF;
+  }
+  #emails-container > li > img{
+    border-radius: 10px;
+    width: 40px;
+  }
+  #emails-container > li > button{
+    display: flex;
+    background-color: #39A900;
+    border-radius: 10px;
+  }
+  .botonBuscar{
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    text-align: center;
+  }
+  .input-contenedor.search{
+    display: flex;
+    gap: 20px;
+  }
+  .form-group.search{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .input-contenedor > button{
+    background-color: #39A900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+  }
+</style>
 <div class="formulario">
   {% if message_err %}
   <div class="alert alert-danger" role="alert">
@@ -23,18 +83,30 @@
     <span class="row">{{message_exito}}</span>
   </div>
   {% endif%}
-  
   <form action="/citacion/participantes/enviarCitacionParticipantes" method="post" class="form" novalidate>
     <div class="encabezado">
       <h2>Enviar Citación Participantes</h2>
     </div>
     <div class="bloque">
       <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+      <div class="campos-dobles search">
+        <div class="form-group search">
+          <div class="campos">
+            <div class="label-contenedor"><label for="">Correo</label></div>
+            <div class="input-contenedor search">
+              {{ formEnviarCitacionParticipantes.añadir_Correos(class='form-control', id='correo_Participante', placeholder='example@sena.edu.co')}}
+              <button type="button" id="addEmail" class="btn btn-success">Añadir</button>
+            </div>
+          </div> 
+        </div>
+      </div>
       <div class="campos-dobles">
         <div class="form-group">
           <div class="campos">
             <div class="label-contenedor"><label for="">Correo</label></div>
-            <div class="input-contenedor">{{ formEnviarCitacionParticipantes.correo_Participantes(class='form-control', id='correo_Aprendiz', placeholder='example@sena.edu.co')}}</div>
+            <div class="input-contenedor">
+              {{ formEnviarCitacionParticipantes.correo_Participantes(class='form-control', id='correos_Participantes', placeholder='example@sena.edu.co', readonly = readonly)}}
+              </div>
           </div> 
           {% for i in formEnviarCitacionParticipantes.correo_Participantes.errors %}
           <div class="errors"><span  class="span" style="color: red;"> {{i}}</span></div>
@@ -51,17 +123,28 @@
             <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
             {% endfor %}
           </div>
-        <div class="form-group">
+          <div class="form-group">
             <div class="campos">
-              <div class="label-contenedor"><label for="">Asunto</label></div>
-              <div class="input-contenedor">{{ formEnviarCitacionParticipantes.asunto(class='form-control', id='nombre_Aprendiz')}}</div>
+              <div class="label-contenedor"><label for="">Hora</label></div>
+              <div class="input-contenedor">{{ formEnviarCitacionParticipantes.hora(class="form-control", default=request.form['hora'],id='num_Ficha')}}</div>
             </div>
-            {% for i in formEnviarCitacionParticipantes.asunto.errors %}
+            {% for i in formEnviarCitacionParticipantes.hora.errors %}
             <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
             {% endfor %}
           </div>
       </div>
-      <div class="campos-largos">
+      <div class="campos-dobles">
+        <div class="form-group">
+          <div class="campos">
+            <div class="label-contenedor"><label for="">Asunto</label></div>
+            <div class="input-contenedor">{{ formEnviarCitacionParticipantes.asunto(class='form-control', id='nombre_Aprendiz')}}</div>
+          </div>
+          {% for i in formEnviarCitacionParticipantes.asunto.errors %}
+          <div class="errors"><span class="span" style="color: red;"> {{i}}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="campos-dobles">
         <div class="form-group">
             <div class="campos">
                 <div class="label-contenedor"><label for="">Descripción</label></div>
@@ -77,4 +160,66 @@
       {{ formEnviarCitacionParticipantes.hidden_tag()}}
     </form>
   </div>
+  <script>
+    $(document).ready(function() {
+      $(".form-group.search").append("<div class='emails-container'><p>Participantes</p><ul id='emails-container'></ul></div>")
+      $(".emails-container").css("display", "none")
+
+      var container = $('#emails-container');
+      var newEmailInput = $('#correo_Participante');
+      var campoCorreoFlask = $('#correos_Participantes');
+  
+      $('#addEmail').on('click', function() {
+          var newEmail = newEmailInput.val();
+          $(".emails-container").css("display", "flex")
+          // Expresión regular para validar el formato del correo electrónico
+          var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+          if (emailRegex.test(newEmail)) {
+
+              if (!correoExiste(newEmail)) {
+                  container.append(`<li><img src="{{url_for("static", filename="/img/user.png")}}">${newEmail}<button class="btnQuitar btn btn-success">Quitar</button></li>`);
+                  actualizarCampoCorreo();
+              } else {
+                  alert('El correo electrónico ya está en la lista.');
+              }
+          } else {
+              alert('Formato de correo electrónico no válido');
+          }
+      });
+  
+      // Agregar manejo de eventos para quitar correos
+      container.on('click', '.btnQuitar', function() {
+          $(this).closest('li').remove();
+          actualizarCampoCorreo();
+      });
+  
+      function actualizarCampoCorreo() {
+          var emails = container
+              .find('li')
+              .map(function () {
+                  return $(this)
+                      .clone() 
+                      .children('.btnQuitar') 
+                      .remove()
+                      .end() 
+                      .text()
+                      .trim();
+              })
+              .get()
+              .join(', ');
+  
+          campoCorreoFlask.val(emails);
+      }
+  
+      function correoExiste(correo) {
+          var existe = container.find('li:contains(' + correo + ')').length > 0;
+          return existe;
+      }
+  });
+  
+</script>
+
+
+  
   {% endblock %}

@@ -67,4 +67,3 @@ def modificarCaso(id):
         formModificarCaso.correo_Aprendiz.data = modificarCaso.correo_Aprendiz
     return render_template("modificarCaso.html", formModificarCaso = formModificarCaso) 
 
-

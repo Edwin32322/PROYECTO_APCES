@@ -27,29 +27,29 @@
     </div>
     <div class="lista">
         <ul class="">
-            {% if llamados %}
-            {% for llamado in llamados %}
-                <li data-name="{{llamado.nombre_Aprendiz}}" data-date="{{llamado.fecha}}">
-                <a href="visualizarLlamado/{{ llamado.id_LlamadoAtencion }}">
+            {% if citaciones %}
+            {% for citacion in citaciones %}
+                <li data-date="{{citacion.fecha}}">
+                <a href="visualizarcitaciones/{{ citacion.id_Citacion }}">
                     <div class="contenedor_imagen">
-                        <img src="{{ url_for('static', filename='img/llamados.png') }}" alt="Visualizar">
+                        <img src="{{ url_for('static', filename='img/citaciones.png') }}" alt="Visualizar">
                     </div>
                     <div class="contenedor_texto">
-                        <span>{{ llamado.fecha}} |   </span><span>Aprendiz: {{ llamado.nombre_Aprendiz }}
+                        <span>{{ citacion.fecha_Citacion}} - {{citacion.hora_Citacion}} |  Citacion: {{ citacion.destinatario }}</span>
                     </div>
                 </a>
                 <div>
-                <a href="/llamados/modificarLlamado/{{llamado.id_LlamadoAtencion}}">Modificar Llamado</a>
+                <a href="/citaciones/modificarcitaciones/{{citacion.id_Citacion}}">Modificar citaciones</a>
                 </div>
             </li>
             {% endfor %}
             {% else %}
-            <p>No hay llamados realizados.</p>
+            <p>No hay citacioness realizados.</p>
             {% endif %}
         </ul>
     </div>
 </div>
 {% endblock %}
 {% block CustomJs %}
-<script src="{{url_for('static', filename='js/cambiarFiltroLlamado.js')}}"></script>
+<script src="{{url_for('static', filename='js/cambiarFiltrocitaciones.js')}}"></script>
 {% endblock %}

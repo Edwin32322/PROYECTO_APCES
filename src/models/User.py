@@ -16,4 +16,3 @@ class User(UserMixin):
         
     def get_id(self):
         return str(self.id_Usuario)
-print(generate_password_hash('hola123'))

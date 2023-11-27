@@ -30,13 +30,13 @@
             <a href="visualizarUsuario/{{ user.id_Usuario }}">
                 <li data-rol="{{ user.id_Rol_FK }}">
                     <div class="contenedor_imagen">
-                        <img src="{{ url_for('static', filename='img/visualizar.png') }}" alt="Visualizar">
+                        <img src="{{ url_for('static', filename='img/visualizarusua.png') }}" alt="Visualizar">
                     </div>
                     <div class="contenedor_texto">
                         <span>Usuario</span>
                     </div>
                     <div>
-                        <span>{{ user.nombre_Usuario }}</span>
+                        <span>{{ user.nombre_Usuario }} - {{user.numero_Documento_Usuario}}</span>
                     </div>
                 </li>
             </a>

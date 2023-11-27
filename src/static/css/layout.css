@@ -2,7 +2,10 @@
     margin: 0;
     padding: 0;
 }
-
+input:focus{
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
 body {
     background-color: rgb(255, 255, 255);
 }
@@ -33,6 +36,10 @@ header{
     font-style: normal;
     font-weight: 500;
     margin: 0 40px;
+}
+.usuario.rol{
+    color: #FFF;
+    font-size: 10px;
 }
 
 nav ul .sub_menu{
